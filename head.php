@@ -77,6 +77,70 @@ function ExportMainTitle($id,$n_uid)
 		');
 	}
 }
+function GetNav($id,$n_uid)
+{
+	require_once RELATIVITY_PATH . 'include/ajax_operate.class.php';
+ 	$o_operate = new Operate ();
+	$a_data=array();
+	$n_modelid=$id;
+	$a_model=array();
+	$n_parentid=0;
+	//计算当前模块的根模块ID
+	if($n_modelid>0)
+	{
+		$o_current=new Base_Module($n_modelid);
+		if ($o_current->getParentModuleId()>0)
+		{
+			$o_current2=new Base_Module($o_current->getParentModuleId());
+			if($o_current2->getParentModuleId()>0)
+			{
+				$n_parentid=$o_current2->getParentModuleId();
+			}else{
+				$n_parentid=$o_current->getParentModuleId();
+			}
+		}else{
+			$n_parentid=$n_modelid;
+		}
+	}
+	//获取所有根模块
+	$o_model = new View_User_Right ();
+	$o_model->PushWhere ( array ('&&', 'Uid', '=',$n_uid ) );
+	$o_model->PushWhere ( array ('&&', 'ParentModuleId', '=', 0 ) );
+	$o_model->PushOrder ( array ('Module', 'A' ) );
+	$n_count=$o_model->getAllCount();
+	for($i=0;$i<$n_count;$i++)
+	{
+		//输出
+		$s_active='';
+		if($n_parentid==$o_model->getModuleId ( $i ))
+		{
+			$s_active=' active';//设置一个高亮值，javascript
+		}
+		echo('<a class="list-group-item'.$s_active.'" onclick="location=\''.RELATIVITY_PATH.$o_operate->getSubPage($n_uid,$o_model->getModuleId($i)).'\'"><span class="glyphicon '.$o_model->getIconPathB ( $i ).'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.$o_model->getModuleName ( $i ).'</span></a>');
+	}
+	for($k = 1; $k <= 5; $k ++) {
+		eval ( '$o_model = new View_User_Right_Sec' . $k . ' ();' );
+		$o_model->PushWhere ( array ('&&', 'Uid', '=', $n_uid ) );
+		$o_model->PushWhere ( array ('&&', 'ParentModuleId', '=', 0 ) );
+		$o_model->PushOrder ( array ('Module', 'A' ) );
+		$n_count = $o_model->getAllCount ();
+		for($i = 0; $i < $n_count; $i ++) {
+			if (in_array($o_model->getModuleId ( $i ), $a_model))
+			{
+				continue;
+			}
+			//输出
+			$s_active='';
+			if($n_parentid==$o_model->getModuleId ( $i ))
+			{
+				$s_active=' active';//设置一个高亮值，javascript
+			}
+			echo('<a class="list-group-item'.$s_active.'" onclick="location=\''.RELATIVITY_PATH.$o_operate->getSubPage($n_uid,$o_model->getModuleId($i)).'\'"><span class="glyphicon '.$o_model->getIconPathB ( $i ).'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.$o_model->getModuleName ( $i ).'</span></a>');
+		}
+	}
+	echo('<a class="list-group-item" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.Text::Key('Logout').'</span></a>');
+}
+$o_user = new Single_User($O_Session->getUid());
 $o_setup=new Base_Setup(1);
 ?>
 <!DOCTYPE html>
@@ -90,11 +154,12 @@ $o_setup=new Base_Setup(1);
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top sss_top">
+<div class="progress_bar" style="width:0%;height:3px;background-color:#f0ad4e;position:absolute;"></div>
 	<div class="sss_logo">
 		<img src="<?php echo(RELATIVITY_PATH.$o_setup->getLogo())?>" alt="" />
 	</div>
 	<div class="sss_title">
-	    <div><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;<span id="title"></span></div>
+	    <div><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;<span id="title"><?php echo($o_setup->getSystemName())?></span></div>
 	</div>
 	<div class="sss_menu" onclick="show_nav()">
     	<div><span class="glyphicon glyphicon-align-justify"></span></div>
@@ -102,9 +167,16 @@ $o_setup=new Base_Setup(1);
 <div class="dropdown sss_top_right_menu">
     <div aria-hidden="true" data-toggle="dropdown" style="margin-bottom:9px;" aria-haspopup="true" aria-expanded="true">
         <div id="username" class="sss_top_right_menu_username">
+        <?php echo($o_user->getUserName())?>
         </div>
         <div class="sss_top_right_menu_photo">
-            <img id="small_photo" src="<?php echo(RELATIVITY_PATH)?>images/photo_default.png" alt="" />
+            <img id="small_photo" src="<?php
+			if ($o_user->getPhoto()=='')
+			{
+				echo(RELATIVITY_PATH.'images/photo_default.png');
+			}else{
+				echo(RELATIVITY_PATH.$o_user->getPhoto());
+			}?>" alt="" />
         </div>
         <div class="sss_top_right_menu_btn">
         <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></div>
@@ -117,6 +189,9 @@ $o_setup=new Base_Setup(1);
 <div class="sss_top_mail" onclick="location=RootPath+'sub/msg/index.php'" data-placement="bottom" data-toggle="tooltip" title="<?php echo(Text::Key('SystemMessage'))?>">
     <span class="glyphicon glyphicon-envelope"></span><div class="badge up" id="mail_number"></div>
 </div>
+<div class="sss_top_mail sss_top_chat">
+    <span class="glyphicon glyphicon-comment"></span><div class="badge up" id="chat_number"></div>
+</div>
 </nav>
     <div style="height: 50px">
     </div>
@@ -124,24 +199,28 @@ $o_setup=new Base_Setup(1);
         <div class="sss_nav mCustomScrollbar light" data-mcs-theme="minimal-dark">
             <div class="sss_nav_top">
                 <div class="sss_nav_top_photo" onclick="location='<?php echo(RELATIVITY_PATH)?>sub/control/photo_index.php'">
-                    <img id="user_photo" src="<?php echo(RELATIVITY_PATH)?>images/photo_default.png" alt="" />
+                    <img id="user_photo" src="<?php
+			if ($o_user->getPhoto()=='')
+			{
+				echo(RELATIVITY_PATH.'images/photo_default.png');
+			}else{
+				echo(RELATIVITY_PATH.$o_user->getPhoto());
+			}?>" alt="" />
                 </div>
                 <div class="sss_nav_top_right">
                     <p>
                        <?php echo(Text::Key('Welcome'))?></p>
-                    <p id='name' style="font-size: 18px;"></p>
+                    <p id="name" style="font-size: 18px;"><?php echo($o_user->getName())?></p>
                     <p>
                         <span class="label label-success" style="font-weight: normal"><?php echo(Text::Key('Online'))?></span></p>
                 </div>
 				<p class="sss_nav_packup" onclick="show_nav_wide()"><span class="glyphicon glyphicon-pushpin"></span></p>
-            <script>get_sys_info()</script>
             </div>
             <div class="sss_nav_cut">
             </div>
-            <div id=nav class="list-group sss_nav_menu">
-            <div style="padding:15px;"><img id="user_photo" src="<?php echo(RELATIVITY_PATH)?>images/loading.gif" alt="" /></div>
+            <div id="nav" class="list-group sss_nav_menu">
+            <?php echo(GetNav(MODULEID,$o_user->getUid()))?>
             </div>
-            <script>get_nav(<?php echo(MODULEID)?>)</script>
         </div>
         <div class="sss_main_box">
             <div class="sss_main">

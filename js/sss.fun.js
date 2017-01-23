@@ -65,7 +65,6 @@ try {
 function verify_browser()
 {
     var userAgent = navigator.userAgent.toLowerCase();
-
     jQuery.browser = {
             version: (userAgent.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [])[1],
             safari: /webkit/.test(userAgent),
@@ -376,65 +375,6 @@ function table_load(fun,item,sort,page,key,other_key)
 		$("body,html").animate({scrollTop:0}, 500);
 		//window.alert(json.pagesize);
     })	
-}
-function get_sys_info()
-{
-    var data='Ajax_FunName=GetSysInfo';//后台方法
-    $.getJSON(RootPath+"include/bn_submit.switch.php",data,function (json){
-		$('#name').html(json.name);
-		$('#username').html(json.username);
-		$('#title').html(json.title);
-		$('#footer').html(json.footer);
-		//window.alert(RootPath+json.photo)
-		if (json.photo!='')
-		{
-			$('#small_photo').attr('src',RootPath+json.photo);
-			$('#small_photo').hide();
-			$('#user_photo').attr('src',RootPath+json.photo);
-			$('#user_photo').hide();
-			$('#small_photo').fadeIn(300);
-			$('#user_photo').fadeIn(300);
-		}
-    })  
-}
-function get_nav(model_id)
-{
-    var data='Ajax_FunName=GetNav';//后台方法
-    data=data+'&id='+model_id
-    $.getJSON(RootPath+"include/bn_submit.switch.php",data,function (json){
-		var a_arr=[];
-		for(var i=0;i<json.length;i++)
-        {
-			var active='';
-			if(json[i].active==1)
-			{
-				active=' active';
-			}
-            a_arr.push('<a class="list-group-item'+active+'" onclick="location=\''+RootPath+json[i].path+'\'"><span class="glyphicon '+json[i].icon+'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'+json[i].name+'</span></a>');
-        }
-		a_arr.push('<a class="list-group-item" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;<span class="title">'+Language['Logout']+'</span></a>');
-		$('#nav').hide();
-		$('#nav').html(a_arr.join('\n'));
-		$('#nav').slideToggle();
-		//导航是否显示图标
-		if(NavIcon==1)
-		{
-			$(".sss_nav .title").hide();
-			$(".sss_nav .glyphicon").css('float', 'right');
-			$(".sss_nav .list-group-item").css('padding-right', '10px');
-			//添加文字提示
-			var item=$(".sss_nav_menu").children('.list-group-item')
-			for(var i=0;i<item.length;i++)
-			{
-				var title=$(item[i]).find('.title')
-				title=$(title[0]).html();
-				title=title.replace('&nbsp;','')
-				title=title.replace('&nbsp;','')
-				title=title.replace('&nbsp;','')
-				$(item[i]).attr('title',title)
-			}
-		}
-    })  	
 }
 function get_sys_msg_num()
 {

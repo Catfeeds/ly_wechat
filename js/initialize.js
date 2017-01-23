@@ -5,7 +5,7 @@ var RootPath='/event/';
 (function (){
     var paths_js  = [
 			'js/language_cn.js',
-            'js/bootstrap/js/jquery-1.9.1.js',
+            'js/bootstrap/js/jquery-2.1.0.min.js',
 			'js/bootstrap/js/jquery.mCustomScrollbar.concat.min.js',
             'js/bootstrap/js/jquery.bootstrap.teninedialog.js',
             'js/bootstrap/js/bootstrap-select.min.js',

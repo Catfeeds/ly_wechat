@@ -180,6 +180,7 @@ class Operate extends Bn_Basic {
 		echo(json_encode ($a_data));
 	}
 	public function getSubPage($n_uid,$n_module_id){
+		$s_url='';
 		//获得本模块下第一个子模块的链接地址
 		$o_module = new Base_Module ( $n_module_id);
 		$o_userModule = new View_User_Right ();
@@ -188,7 +189,12 @@ class Operate extends Bn_Basic {
 		$o_userModule->PushOrder ( array ('Module', 'A' ) );
 		$n_count = $o_userModule->getAllCount ();
 		for($i = 0; $i < $n_count; $i ++) {
-			return $o_userModule->getPath ( $i );
+			$s_url=$o_userModule->getPath ( $i );
+			break;
+		}
+		if($s_url!='')
+		{
+			return $s_url;
 		}
 		for($k = 1; $k <= 5; $k ++) {
 			eval ( '$o_userModule = new View_User_Right_Sec' . $k . ' ();' );
@@ -197,9 +203,15 @@ class Operate extends Bn_Basic {
 			$o_userModule->PushOrder ( array ('Module', 'A' ) );
 			$n_count = $o_userModule->getAllCount ();
 			for($i = 0; $i < $n_count; $i ++) {
-				return $o_userModule->getPath ( $i );
+				$s_url=$o_userModule->getPath ( $i );
+				break;
+			}
+			if($s_url!='')
+			{
+				return $s_url;
 			}
 		}
+		return $o_module->getPath();
 	}
 }
 

@@ -2,7 +2,7 @@
             </div>
             <div class="sss_footer">
                 <p id="footer">
-                    
+                    <?php echo($o_setup->getFooter())?>
                 </p>
             </div>
         </div>
@@ -16,8 +16,9 @@
 	<span class="glyphicon glyphicon-menu-up"></span>
 </div>
 <iframe id="submit_form_frame" name="submit_form_frame" src="about:blank" style="display:none"></iframe>
+<div id="pjax-container"></div>
 <script>
-var NavIcon=<?php $o_setup=new Base_User_Info($O_Session->getUid());echo($o_setup->getShowNavIcon())?>
+var NavIcon=<?php $o_setup=new Base_User_Info($O_Session->getUid());echo($o_setup->getShowNavIcon())?>;
 </script>
 </body>
 </html>
