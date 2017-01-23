@@ -1,0 +1,22 @@
+﻿body /*主页背景统一样式*/
+{
+	margin: 0px;
+	line-height: 1.3;
+	font-size: 12px;
+	font-family: 微软雅黑, Microsoft Yahei, Hiragino Sans GB, tahoma, arial, 宋体;
+	color: #000000;
+	background-position: center;
+	height: 100%;
+}
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+input, textarea, select, button
+{
+	color: #444;
+	font: 12px/1.6em Verdana,Helvetica,Arial,sans-serif;
+	font-family: 微软雅黑, Microsoft Yahei, Hiragino Sans GB, tahoma, arial, 宋体;
+	outline: none;
+}

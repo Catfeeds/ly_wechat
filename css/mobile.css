@@ -1,0 +1,84 @@
+body
+{
+
+}
+.sss_title
+{
+    display:none;
+    }
+.sss_logo
+{
+    display:none;
+    }
+.sss_main_box
+{
+    margin-left:0px;
+    }
+.sss_nav
+{
+    margin-left:-250px;
+    z-index:9999999;
+    }
+.sss_top .sss_menu
+{
+    float:left;
+    color:White;
+    font-size:24px;
+    height:50px;
+    display:block;
+    }
+.sss_menu div
+{
+    margin-top:9px;
+    margin-left:20px;
+    cursor:pointer;
+	
+    }
+.sss_menu div:hover
+{
+	color:#A4D2EE;
+    }
+.sss_nav_menu .active
+{
+	background-image:none;
+}
+.dropdown-menu
+{
+
+    }
+.sss_nav_packup
+{
+    display:none;
+    }
+.modal-dialog
+{
+	margin-top:20%;
+	width:auto;
+	}
+#loading .loading_body
+{
+	margin-top:40%;
+	}
+.sss_login
+{
+	 margin-top:70px;
+	 margin-left:5%;
+	 width:90%;
+	}
+.sss_login
+{
+	 margin-top:70px;
+	 margin-left:5%;
+	 width:90%;
+	}
+.sss_logo_title
+{
+	display:block;
+	
+}
+.sss_form div.item
+{
+	width:auto;
+	margin-left:auto;
+}
+

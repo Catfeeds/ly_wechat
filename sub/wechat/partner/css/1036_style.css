@@ -1,0 +1,60 @@
+body{
+	background-color:white;
+	padding-bottom:30px;
+}
+div
+{
+	overflow:hidden;
+}
+img
+{
+	width:100%;
+}
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+.title{
+	margin-left:8%;
+	margin-right:8%;
+	color:#72A9A9;
+	font-weight:bold;
+	font-size:20px;
+	padding-top:0px;
+	border-left: 4px solid #72A9A9;
+	padding-left:10px;
+	margin-top:20px;
+}
+.content
+{
+	margin-top:15px;
+	margin-left:8%;
+	margin-right:8%;
+	text-align:justify; 
+	text-justify:inter-ideograph; 
+	color:#787878;
+	font-size:16px;
+	line-height:28px;
+}
+.contact
+{
+	margin-top:40px;
+	margin-left:8%;
+	margin-right:8%;
+	padding:15px;
+	border: 1px solid #72A9A9;
+	background-color:#F2F0F1;
+	color:#8E8E8E;
+	font-size:16px;
+}
+.contact div
+{
+	padding-bottom:10px;
+	font-weight:bold;
+    color:#72A9A9;
+}
+.contact span
+{
+	color:#72A9A9;
+}

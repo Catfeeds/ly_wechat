@@ -1,0 +1,54 @@
+#msg_list
+{
+	padding:15px;
+	padding-top:0px;
+	padding-bottom:20px;
+	display:none;
+}
+#msg_list .nothing
+{
+	color:#999999;
+	margin-top:20px;
+}
+#msg_list div.box
+{
+	margin-top:20px;
+	background-color:#F2F4F8;
+	border-left: 3px solid #35AA47;
+	line-height:25px;
+	overflow:hidden;
+}
+#msg_list div.box:hover
+{
+	background-color:#D9EDF7;
+}
+
+#msg_list div.box div
+{
+	float:left;
+}
+#msg_list div.box .button
+{
+	float:right;
+	cursor:pointer;
+	font-size:14px;
+	color:#cccccc;
+}
+#msg_list div.box .button:hover
+{
+	color:#666666;
+}
+#msg_list div.unread
+{
+	font-weight:bold;
+	border-left: 3px solid #DA4A38;
+}
+#msg_list div.box a
+{
+	color:#3498DB;
+}
+.panel
+{
+	border:none;
+	box-shadow:0px 0px 0px rgba(0,0,0,0.05);
+}

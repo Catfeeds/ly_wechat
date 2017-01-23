@@ -1,0 +1,526 @@
+body /*主页背景统一样式*/
+{
+	margin: 0px;
+	font: 12px/1.5 Arial,Tahoma,Helvetica,SimSun,sans-serif,Hei;
+	color: #6f6f6f;
+	height: 100%;
+}
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+input, textarea, select, button
+{
+	color: #444;
+	font: 12px/1.6em Verdana,Helvetica,Arial,sans-serif;
+}
+input, select, button
+{
+	vertical-align: middle;
+	color: #444;
+}
+form
+{
+	padding: 0px;
+	margin: 0px;
+}
+div
+{
+	overflow: hidden;
+}
+a
+{
+	text-decoration: none;
+	color: #6f6f6f;
+}
+a:hover
+{
+	text-decoration: none;
+}
+a img
+{
+	border: none;
+}
+img
+{
+	border: none;
+}
+table
+{
+	border-collapse: collapse;
+}
+iframe
+{
+	width: 100%;
+}
+.unread_title
+{
+	font-weight: bold;
+}
+.unread_title a
+{
+	font-weight: normal;
+}
+a.red
+{
+	color: Red;
+}
+.green
+{
+	color: #42B475;
+}
+.mar_top_20
+{
+	margin-top: 20px;
+}
+.xuan
+{
+	width: 40px;
+}
+.blue
+{
+	color: #3399CC;
+}
+.green
+{
+	color: #009900;
+}
+.desk_icon
+{
+	background: url(  '../images/netdisk.jpg' ) left center no-repeat;
+}
+.folder_top
+{
+	width: 100%;
+	background: url(  '../images/bg_tablist_big.gif' ) left center;
+	margin: 0px;
+	border: 1px solid #C0BFBF;
+	border-left: none;
+}
+.folder_top td
+{
+	height: 34px;
+}
+.folder_top td .up
+{
+	height: 26px;
+	width: 28px;
+	cursor: pointer;
+	background: url(  '../images/up_off.png' );
+	margin-left: 15px;
+}
+.folder_top td .up:hover
+{
+	background: url(  '../images/up_on.png' );
+}
+.folder_top td .upload
+{
+	height: 26px;
+	width: 83px;
+	cursor: pointer;
+	background: url(  '../images/upload_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .upload:hover
+{
+	background: url(  '../images/upload_big_on.png' );
+}
+.folder_top td .upload_link
+{
+	height: 26px;
+	width: 83px;
+	cursor: pointer;
+	background: url(  '../images/upload_link_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .upload_link:hover
+{
+	background: url(  '../images/upload_link_big_on.png' );
+}
+.folder_top td .folder
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/folder_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .folder:hover
+{
+	background: url(  '../images/folder_big_on.png' );
+}
+.folder_top td .copy
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/copy_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .copy:hover
+{
+	background: url(  '../images/copy_big_on.png' );
+}
+.folder_top td .move
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/move_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .clear
+{
+	height: 26px;
+	width: 92px;
+	cursor: pointer;
+	background: url(  '../images/clear_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .clear:hover
+{
+	background: url(  '../images/clear_big_on.png' );
+}
+.folder_top td .reduction
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/reduction_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .reduction:hover
+{
+	background: url(  '../images/reduction_big_on.png' );
+}
+.folder_top td .move:hover
+{
+	background: url(  '../images/move_big_on.png' );
+}
+
+.folder_top td .delete
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/del_big_off.png' );
+	margin-left: 5px;
+}
+.folder_top td .delete:hover
+{
+	background: url(  '../images/del_big_on.png' );
+}
+.folder_title
+{
+	width: 100%;
+	margin: 0px;
+	border: 1px solid #C0BFBF;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	background-color: #F9F8F8;
+}
+.folder_title td
+{
+	height: 20px;
+	padding-left: 10px;
+	border-right: 1px solid #C0BFBF;
+}
+
+.folder_body
+{
+	width: 100%;
+	margin: 0px;
+	border: 1px solid #EBEBEB;
+	border-left: none;
+	border-top: none;
+	background-color: #F9F8F8;
+}
+.folder_body tr
+{
+	height: 47px;
+	padding-left: 10px;
+	cursor: pointer;
+}
+.folder_body tr.on
+{
+	background-color: #9BC3EE;
+}
+.folder_body tr.on td
+{
+	color: White;
+}
+.folder_body tr.off
+{
+}
+.folder_body tr.off:hover
+{
+	background-color: #F2F2F2;
+}
+.folder_body td
+{
+	height: 47px;
+	padding-left: 10px;
+	border-bottom: 1px solid #EBEBEB;
+}
+.folder_body td div
+{
+	display: none;
+}
+.folder_body td .icon
+{
+	height: 32px;
+	width: 32px;
+	line-height:32px;
+	position:relative;
+	margin:0px auto;
+   text-align:center; 
+   display: block;
+   cursor: pointer;
+}
+.folder_body td .icon .img
+{
+	display:block;
+	position:static;   
+	height: 32px;
+	width: 32px;
+	background-image: url( '../images/icon-type_2.png' );
+	background-repeat: no-repeat;
+}
+.folder_body td div.icon .share
+{
+	display: block;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 32px;
+	height: 32px;
+	background-image: url( '../images/share_hand.png' );
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}
+.folder_body td a:hover
+{
+	text-decoration: underline;
+	color: Black;
+}
+.folder_body td .folder
+{
+	background-position: -242px 0px;
+}
+.folder_body td .mov
+{
+	background-position: -171px 0px;
+}
+.folder_body td .excel
+{
+	background-position: -136px 0px;
+}
+.folder_body td .ppt
+{
+	background-position: -206px 0px;
+}
+.folder_body td .word
+{
+	background-position: -104px 0px;
+}
+.folder_body td .image
+{
+	background-position: -70px 0px;
+}
+.folder_body td .pdf
+{
+	background-position: 0px -35px;
+}
+.folder_body td .txt
+{
+	background-position: -34px -35px;
+}
+.folder_body td .psd
+{
+	background-position: -70px -35px;
+}
+.folder_body td .rar
+{
+	background-position: -104px -35px;
+}
+.folder_body td .html
+{
+	background-position: -136px -35px;
+}
+.folder_body td .exe
+{
+	background-position: -171px -35px;
+}
+.folder_body td .other
+{
+	background-position: -206px -35px;
+}
+
+
+.file_list
+{
+	}
+.file_list .off div
+{
+
+	}
+.file_list .on
+{
+	background-color: #9BC3EE;
+}
+.file_list .file_name
+{
+	text-align: center;
+	color:#333333; 
+	}
+.file_list .on
+{
+	color:White;	
+	}
+.file_list .on .file_info
+{
+	color:White;	
+	}
+.file_list .file_info
+{
+	color: #666666;
+	text-align: center; 
+	}
+.file_list .button
+{
+	text-align: center; 
+	display:none;
+	}
+.file_list .button_box
+{
+	height:15px;
+	}
+.file_list .off
+{
+	float:left;
+	padding:2px;
+	margin:1px;
+	width:109px;
+	border: 1px solid #FFFFFF;
+	}
+.file_list .folderoff
+{
+	float:left;
+	padding:2px;
+	margin:1px;
+	width:109px;
+	border: 1px solid #FFFFFF;
+	}
+.file_list .on
+{
+	margin:1px;
+	float:left;
+	padding:2px;
+	width:109px;
+	border: 1px solid #B4BFE4;
+	}
+.file_list .icon
+{
+	height: 32px;
+	width: 32px;
+	line-height:32px;
+	position:relative;
+	margin:0px auto;
+   text-align:center; 
+   display: block;
+   cursor: pointer;
+	}
+.file_list .icon .img
+{
+	display:block;
+	position:static;   
+	height: 32px;
+	width: 32px;
+	background-image: url( '../images/icon-type_2.png' );
+	background-repeat: no-repeat;
+}
+.file_list .folderoff:hover
+{
+	background-color: #F2F2F2;
+	border: 1px solid #FFFFFF;
+}
+.file_list .off:hover
+{
+	background-color: #F2F2F2;
+	border: 1px solid #B4BFE4;
+}
+.file_list a:hover
+{
+	color: #333333;
+}
+.file_list .goup
+{
+	background-position: -242px -35px;
+}
+.file_list .folder
+{
+	background-position: -242px 0px;
+}
+.file_list .mov
+{
+	background-position: -171px 0px;
+}
+.file_list .excel
+{
+	background-position: -136px 0px;
+}
+.file_list .ppt
+{
+	background-position: -206px 0px;
+}
+.file_list .word
+{
+	background-position: -104px 0px;
+}
+.file_list .image
+{
+	background-position: -70px 0px;
+}
+.file_list .pdf
+{
+	background-position: 0px -35px;
+}
+.file_list .txt
+{
+	background-position: -34px -35px;
+}
+.file_list .psd
+{
+	background-position: -70px -35px;
+}
+.file_list .rar
+{
+	background-position: -104px -35px;
+}
+.file_list .html
+{
+	background-position: -136px -35px;
+}
+.file_list .exe
+{
+	background-position: -171px -35px;
+}
+.file_list .other
+{
+	background-position: -206px -35px;
+}
+.folder_top td .search
+{
+	height: 26px;
+	width: 59px;
+	cursor: pointer;
+	background: url(  '../images/search_off.png' );
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.folder_top td .search:hover
+{
+	background: url(  '../images/search_on.png' );
+}

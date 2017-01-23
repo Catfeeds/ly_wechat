@@ -1,0 +1,33 @@
+
+input, select, button
+{
+	vertical-align: middle;
+	color: #444;
+	outline: none;
+}
+form
+{
+	padding: 0px;
+	margin: 0px;
+}
+div
+{
+
+}
+a
+{
+	text-decoration: none;
+	color: #333333;
+}
+a:hover
+{
+	text-decoration: none;
+}
+a img
+{
+	border: none;
+}
+img
+{
+	border: none;
+}

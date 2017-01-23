@@ -1,0 +1,268 @@
+.breadcrumb
+{
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	border-radius: 0px;
+	margin:0px;
+}
+.breadcrumb a
+{
+	color:#3498DB;
+}
+.panel-heading
+{
+	padding:5px;
+	padding-left:10px;
+	padding-right:10px;
+}
+.sss_filelist
+{
+	padding:5px;
+	overflow:hidden;
+	-webkit-user-select: none; /* Chrome all / Safari all */
+	-moz-user-select: none; /* Firefox all */
+	-ms-user-select: none; /* IE 10+ */
+	-o-user-select: none;
+	user-select: none; 
+}
+.sss_filelist .file
+{
+	float:left;
+	height:100px;
+	overflow:hidden;
+	width:80px;
+	margin:0px 5px 5px 5px;
+	border: 1px solid transparent;
+}
+.sss_filelist .list_title
+{
+    display:none;
+}
+.sss_filelist .file img
+{
+	margin-left:8px;
+	height:64px;
+	width:64px;
+}
+.sss_filelist .file:hover
+{
+	background-color:#EDEDED;
+}
+.sss_filelist .onfocus
+{
+	background-color:#EDEDED;
+	border: 1px solid #D2D2D2;
+}
+.sss_filelist .file .filename
+{
+	font-size:12px;
+	text-align:center;
+	word-break:break-all;
+	line-height:17px;
+	width:78px;
+	cursor:default;
+}
+.sss_filelist .file .filetype
+{
+    display:none;
+}
+.sss_filelist .file .filesize
+{
+    display:none;
+}
+.sss_filelist .file .filedate
+{
+    display:none;
+}
+.sss_filelist_min
+{
+    padding:0px;
+}
+.sss_filelist_min .file
+{
+	float:inherit;
+	height:auto;
+	width:100%;
+	overflow:hidden;
+	margin:0px;
+	padding:3px;
+	border: 1px solid transparent;
+}
+.sss_filelist_min .file img
+{
+    float:left;
+	margin-left:8px;
+	margin:0px;
+	width:16px;
+	height:16px;
+}
+.sss_filelist_min .file .filename
+{
+    float:left;
+	font-size:12px;
+	text-align:left;
+	word-break:break-all;
+	line-height:17px;
+	width:50%;
+	margin-left:3px;
+}
+.sss_filelist_min .file .filetype
+{
+    width:15%;
+    float:left;
+    display:block;
+}
+.sss_filelist_min .file .filesize
+{
+    width:15%;
+    float:left;
+    display:block;
+}
+.sss_filelist_min .file .filedate
+{
+    width:15%;
+    float:left;
+    display:block;
+}
+.sss_filelist_min .list_title
+{
+    display:block;
+    border-bottom: 1px solid #D2D2D2;
+    border-top: 1px solid #D2D2D2;
+    overflow:hidden;
+    background-color:#F5F5F5;
+}
+.sss_filelist_min .list_title div
+{
+    float:left;
+    font-size:12px;
+    font-weight:bold;
+    color:Black;
+    padding:5px;
+}
+.sss_filelist_min .list_title .name
+{
+    width:50%;
+}
+.sss_filelist_min .list_title .type
+{
+    margin-left:5px;
+    width:15%;
+    border-left: 1px solid #D2D2D2;
+}
+.sss_filelist_min .list_title .size
+{
+    width:15%;
+    border-left: 1px solid #D2D2D2;
+}
+.sss_filelist_min .list_title .date
+{
+    border-left: 1px solid #D2D2D2;
+}
+.sss_main
+{
+	padding-bottom:0px;
+}
+.alert
+{
+	margin:0px;
+	position:absolute;
+	border-radius: 0px;
+	padding:10px;
+	top:40%;
+	right:40%;
+	width:20%;
+	display:none;
+	padding-left:20px;
+	text-align:center;
+	padding-right:20px;
+}
+.upload_list
+{
+	height:200px;
+	overflow:auto;
+	width:100%;
+	border: 1px solid #DDDDDD;
+}
+.upload_list .progress-striped
+{
+	margin:0px;
+	height:auto
+}
+.upload_list .progress-striped .bar
+{
+	height:5px;
+}
+.upload_list .progress-striped .info
+{
+	width:100%;
+	padding:5px;
+	padding-bottom:0px;
+	font-size:12px;
+}
+.upload_list .progress-striped .info div
+{
+	float:left;
+}
+.upload_list .progress-striped .info .cancel
+{
+	font-size:14px;
+	color:#D9534F;
+	cursor:pointer;
+}
+.upload_list .progress-striped .info .success
+{
+	font-size:14px;
+	color:#5CB85C;
+}
+.upload_list .progress-striped .info .cancel:hover
+{
+	color:#C9302C;
+}
+#upload_form
+{
+	display:none;
+}
+.list_on
+{
+    background-color:#3498DB;
+    color:White;
+    }
+.list_on:hover
+{
+    background-color:#3498DB;
+    color:White;
+    }
+.list_on:focus
+{
+    background-color:#3498DB;
+    color:White;
+    }
+.diskspace
+{
+	width:200px;
+	float:right;
+	margin-right:30px;
+	margin-top:1px;
+}
+.progress
+{
+	height:10px;
+	margin:0px;
+}
+.diskspace_text
+{
+	text-align:center;
+	font-size:10px;
+	color:#777777;
+}
+.sss_page
+{
+    border-bottom: 0px solid #ddd;
+    overflow:hidden;
+    }
+
+
+
+
+
