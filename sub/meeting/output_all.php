@@ -33,7 +33,8 @@ function OutputList($scene_id) {
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '微信ID' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '是否关注' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '微信昵称' ) );
-	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '公司名称' ) );
+	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '公司名称（中文）' ) );
+	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '公司名称（英文）' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', "职务" ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '姓名' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '手机号' ) );
@@ -83,6 +84,7 @@ function OutputList($scene_id) {
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $s_focus ) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getNickname ( $i ) ) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getCompany ( $i ) ) );
+		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getCompanyEn ( $i ) ) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getDeptJob ( $i ) ) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getUserName ( $i ) ) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getPhone ( $i ) ) );

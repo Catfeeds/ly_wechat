@@ -19,10 +19,11 @@ class Operate extends Bn_Basic {
 		$o_activity = new WX_Activity();
 		$s_key=$this->getPost('key');
 		//开始判断用户权限，只显示已有的会议
-		if($o_user->getActivityId()!='')
+		$a_activity=array();
+		$a_activity=json_decode($o_user->getActivityId());
+		if(count($a_activity)>0)
 		{
-			$a_activity=array();
-			$a_activity=json_decode($o_user->getActivityId());
+			
 			for($i=0;$i<count($a_activity);$i++)
 			{
 				$o_activity->PushWhere ( array ('||', 'Type', '=',1) );
@@ -31,7 +32,6 @@ class Operate extends Bn_Basic {
 		}else{
 			$o_activity->PushWhere ( array ('&&', 'Type', '=',1) );
 		}
-		
 		$o_activity->PushOrder ( array ($this->getPost('item'), $this->getPost('sort') ) );
 		$o_activity->setStartLine ( ($n_page - 1) * $this->N_PageSize ); //起始记录
 		$o_activity->setCountLine ( $this->N_PageSize );
@@ -201,7 +201,7 @@ class Operate extends Bn_Basic {
 				($i+1+$this->N_PageSize*($n_page-1)),
 				'<img style="width:32px;height:32px;cursor:pointer;" src="'.$o_user->getPhoto ( $i ).'" onclick="open_photo(\''.$o_user->getPhoto ( $i ).'\')">',
 				$o_user->getNickname ( $i ),
-				$o_user->getCompany ( $i ),
+				$o_user->getCompany ( $i ).'<br/>'.$o_user->getCompanyEn ( $i ),
 				$o_user->getDeptJob ( $i ),
 				$o_user->getUserName ( $i ).$s_sign_name.$s_round_state,
 				$o_user->getPhone ( $i ),
@@ -494,8 +494,8 @@ class Operate extends Bn_Basic {
 			$o_reminder->setOpenId($o_user_info->getOpenId($i));
 			$o_reminder->setFirst('尊敬的用户，您好！欢迎参加'.$o_activity->getTitle().'活动，请按以下行程安排好您的时间：');
 			$o_reminder->setKeyword1($o_activity->getActivityDate().'（周'.$o_activity->getWeek().'）'.$o_activity->getActivityTime());
-			$o_reminder->setKeyword2($o_activity->getAddress());
-			$o_reminder->setRemark('备注：请携带手机及名片');
+			$o_reminder->setKeyword2($o_activity->getRemFirst());
+			$o_reminder->setRemark($o_activity->getRemRemark());
 			$o_reminder->setActivityId($o_activity->getId());
 			$o_reminder->Save();
 		}

@@ -270,6 +270,7 @@ class Operate extends Bn_Basic {
 		$o_user->setRegTime ( $this->GetDateNow () );
 		$o_user->setType (1);
 		$o_user->setDeleted (0);
+		$o_user->setActivityId ('[]');
 		$o_user->Save ();
 		//用户不可修改的信息
 		$o_user_info = new Base_User_Info ();

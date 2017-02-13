@@ -110,6 +110,7 @@ class WX_User_Info extends CRUD{
 	protected $Nickname;
 	protected $UserName;
 	protected $Company;
+	protected $CompanyEn;
 	protected $DeptJob;
 	protected $Address;
 	protected $OpenId;
@@ -132,6 +133,7 @@ class WX_User_Info extends CRUD{
       	return(array('id' => 'Id',
       				'photo' => 'Photo',
 		      	'nickname' => 'Nickname',
+      	'company_en' => 'CompanyEn',
 		      	'sex' => 'Sex',
       			'user_name' => 'UserName',
 		      	'company' => 'Company',

@@ -32,28 +32,29 @@ class Operate extends Bn_Basic {
 		{
 			//需要新建用户信息
 			$o_new_user=new WX_User_Info();
-			$o_new_user->setPhoto($a_user_info['headimgurl']);
-			$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
-			if ($a_user_info['sex']==2)
-			{
-				$o_new_user->setSex('女');
-			}else{
-				$o_new_user->setSex('男');
-			}			
-			$o_new_user->setUserName($this->getPost('Name'));
-			$o_new_user->setCompany($this->getPost('Company'));
-			$o_new_user->setAddress('');
-			$o_new_user->setDeptJob($this->getPost('DeptJob'));
-			$o_new_user->setPhone($this->getPost('Phone'));
-			$o_new_user->setEmail($this->getPost('Email'));
-			$o_new_user->setRegisterDate($this->GetDate());
-			$o_new_user->setOpenId($this->getPost('OpenId'));
-			$o_new_user->setDelFlag(0);
-			$b_rusult=$o_new_user->Save();
-			$n_user_id=$o_new_user->getId();
 		}else{
-			$n_user_id=$o_user_info->getId(0);
+			$o_new_user=new WX_User_Info($o_user_info->getId(0));
 		}
+		$o_new_user->setPhoto($a_user_info['headimgurl']);
+		$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
+		if ($a_user_info['sex']==2)
+		{
+			$o_new_user->setSex('女');
+		}else{
+			$o_new_user->setSex('男');
+		}			
+		$o_new_user->setUserName($this->getPost('Name'));
+		$o_new_user->setCompany($this->getPost('Company'));
+		$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
+		$o_new_user->setAddress('');
+		$o_new_user->setDeptJob($this->getPost('DeptJob'));
+		$o_new_user->setPhone($this->getPost('Phone'));
+		$o_new_user->setEmail($this->getPost('Email'));
+		$o_new_user->setRegisterDate($this->GetDate());
+		$o_new_user->setOpenId($this->getPost('OpenId'));
+		$o_new_user->setDelFlag(0);
+		$b_rusult=$o_new_user->Save();
+		$n_user_id=$o_new_user->getId();		
 		if ($b_rusult!=true)
 		{
 			$nickname=$this->FilterEmoji($a_user_info['nickname']);
@@ -131,6 +132,7 @@ class Operate extends Bn_Basic {
 			$o_new_user=new WX_User_Info($o_user_info->getId(0));			
 			$o_new_user->setUserName($this->getPost('Name'));
 			$o_new_user->setCompany($this->getPost('Company'));
+			$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
 			$o_new_user->setDeptJob($this->getPost('DeptJob'));
 			$o_new_user->setPhone($this->getPost('Phone'));
 			$o_new_user->setEmail($this->getPost('Email'));
@@ -172,6 +174,7 @@ class Operate extends Bn_Basic {
 			}			
 			$o_new_user->setUserName($this->getPost('Name'));
 			$o_new_user->setCompany($this->getPost('Company'));
+			$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
 			$o_new_user->setAddress('');
 			$o_new_user->setDeptJob($this->getPost('DeptJob'));
 			$o_new_user->setPhone($this->getPost('Phone'));
@@ -202,6 +205,7 @@ class Operate extends Bn_Basic {
 			$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
 			$o_new_user->setUserName($this->getPost('Name'));
 			$o_new_user->setCompany($this->getPost('Company'));
+			$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
 			$o_new_user->setDeptJob($this->getPost('DeptJob'));
 			$o_new_user->setPhone($this->getPost('Phone'));
 			$o_new_user->setEmail($this->getPost('Email'));

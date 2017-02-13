@@ -9,6 +9,7 @@ class View_WX_User_Info extends CRUD
 	protected $Nickname;
 	protected $UserName;
 	protected $Company;
+	protected $CompanyEn;
 	protected $DeptJob;
 	protected $Address;
 	protected $OpenId;
@@ -38,6 +39,7 @@ class View_WX_User_Info extends CRUD
 		      	'wx_user_info.sex' => 'Sex',
       			'wx_user_info.user_name' => 'UserName',
 		      	'wx_user_info.company' => 'Company',
+      			'wx_user_info.company_en' => 'CompanyEn',
 		      	'wx_user_info.dept_job' => 'DeptJob',
 		      	'wx_user_info.address' => 'Address',
 		      	'wx_user_info.openid' => 'OpenId',

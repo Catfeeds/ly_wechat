@@ -41,7 +41,7 @@ class userUtil {
 				//$scope = 'snsapi_userinfo';
 			}
 			if ($scope=='snsapi_base') {
-				$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+				$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'?id='.$_GET['id'];
 				//$_SESSION['wx_redirect'] = $url;
 			}
 			$oauth_url = $we_obj->getOauthRedirect($url,"wxbase",$scope);
