@@ -37,6 +37,9 @@ if ($o_round->getAllCount()>0)
 	$o_temp->setActivityId($o_activity->getId(0));
 	$o_temp->setUserId($o_user->getId(0));
 	$o_temp->setRound1(1);
+	$o_temp->setRound2(1);
+	$o_temp->setRound3(1);
+	$o_temp->setRound4(1);
 	$o_temp->Save();
 }
 ?>
