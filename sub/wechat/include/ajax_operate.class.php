@@ -421,25 +421,32 @@ class Operate extends Bn_Basic {
 		$o_round=new WX_User_Activity_Join($this->getPost('id'));
 		if($o_round->getUserId()>0)//判断用户抽奖信息是否存在。
 		{
+			//--------------------------------确保只要被抽中一次，就没有别的机会了
+			$o_round->setSuccess1(1);
+			$o_round->setSuccess2(1);
+			$o_round->setSuccess3(1);
+			$o_round->setSuccess4(1);
+			$o_round->setSuccess5(1);
+			//---------------------------------
 			if ($this->getPost('round')==1)
 			{
-				$o_round->setSuccess1(1);
+				$o_round->setSuccess1(2);
 			}
 			if ($this->getPost('round')==2)
 			{
-				$o_round->setSuccess2(1);
+				$o_round->setSuccess2(2);
 			}
 			if ($this->getPost('round')==3)
 			{
-				$o_round->setSuccess3(1);
+				$o_round->setSuccess3(2);
 			}
 			if ($this->getPost('round')==4)
 			{
-				$o_round->setSuccess4(1);
+				$o_round->setSuccess4(2);
 			}
 			if ($this->getPost('round')==5)
 			{
-				$o_round->setSuccess5(1);
+				$o_round->setSuccess5(2);
 			}
 			$o_round->Save();
 		}
