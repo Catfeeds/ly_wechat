@@ -52,8 +52,9 @@ class Operate extends Bn_Basic {
 			//如果会议已经过期，那么不显示群发提醒按钮
             $o_date = new DateTime ( 'Asia/Chongqing' );
 			$today=$o_date->format ( 'Y' ) . '-' . $o_date->format ( 'm' ) . '-' . $o_date->format ( 'd' );
+			
 			if(strtotime($today) <= strtotime($o_activity->getActivityDate($i))){
-				array_push ( $a_button, array ('发送提醒', "send_reminder(".$o_activity->getId($i).")" ) );//发送提醒
+				array_push ( $a_button, array ('发送提醒', "send_reminder(".$o_activity->getId($i).",'".rawurlencode($o_activity->getTitle($i))."','".rawurlencode($o_activity->getActivityDate($i).'（周'.$o_activity->getWeek($i).'）'.$o_activity->getActivityTime($i))."','".rawurlencode($o_activity->getRemFirst($i))."','".rawurlencode($o_activity->getRemRemark($i))."')" ) );//发送提醒
 			}			
 			//array_push ( $a_button, array ('修改', "audit_reject(this,'".$o_activity->getId($i)."')" ) );//删除
 			//统计总人数和待审核与签到

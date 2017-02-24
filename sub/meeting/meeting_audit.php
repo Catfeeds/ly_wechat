@@ -39,7 +39,7 @@ ExportMainTitle(MODULEID,$O_Session->getUid());
 			        			$o_activity=new WX_Activity($n_activity_id);
 			        			if(strtotime($today) <= strtotime($o_activity->getActivityDate())){
 			        				?>
-			        				<button id="user_add_btn" type="button" class="btn btn-warning" aria-hidden="true" style="float: right; margin-top: 0px; margin-right:10px; outline: medium none" onclick="send_reminder(<?php echo($n_activity_id)?>)">
+			        				<button id="user_add_btn" type="button" class="btn btn-warning" aria-hidden="true" style="float: right; margin-top: 0px; margin-right:10px; outline: medium none" onclick="send_reminder(<?php echo($n_activity_id)?>,'<?php echo(rawurlencode($o_activity->getTitle()))?>','<?php echo(rawurlencode($o_activity->getActivityDate().'（周'.$o_activity->getWeek().'）'.$o_activity->getActivityTime()));?>','<?php echo(rawurlencode($o_activity->getRemFirst()));?>','<?php echo(rawurlencode($o_activity->getRemRemark()));?>')">
                                 		<span  class="glyphicon glyphicon-bell"></span>
                                 		&nbsp;群发提醒
                                 	</button>

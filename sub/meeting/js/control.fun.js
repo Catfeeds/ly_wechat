@@ -71,10 +71,10 @@ function audit_enable_round(obj,id,activity_id)
     	})	 
 	})
 }
-function send_reminder(activity_id)
+function send_reminder(activity_id,title,time,address,explain)
 {
     var data='Ajax_FunName=SendReminder&id='+activity_id;//后台方法
-	dialog_confirm('真的要发送给所有粉丝会议提醒吗？<br/>注：每个审核通过的粉丝都会收到微信消息提醒。',function(){
+	dialog_confirm('真的要发送给所有粉丝会议提醒吗？<br/>每个审核通过的粉丝都会收到以下内容微信消息提醒，如信息有误，请及时联系管理员修改后再发送：<br/><br/><div style="font-size:12px;line-height:20px">尊敬的用户，您好！欢迎参加'+decodeURIComponent(title)+'活动，请按以下行程安排好您的时间：<br/>活动时间：'+decodeURIComponent(time)+'<br/>活动地点：'+decodeURIComponent(address)+'<br/>'+decodeURIComponent(explain)+'</div>',function(){
 		 $('.small_loading').fadeIn(100);
 		 $.getJSON("include/bn_submit.switch.php",data,function (json){
 		 	$('.small_loading').fadeOut(100);
