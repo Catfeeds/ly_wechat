@@ -8,10 +8,10 @@ header ( 'content-type:text/html; charset=utf-8' );
 require_once '../include/db_table.class.php';
 //---------------------------------------------------------配置信息-----------------
 $a_title=array(//设置每轮的标题
-		'第一轮',
-		'第二轮',
-		'第三轮',
-		'第四轮');
+		'',
+		'',
+		'',
+		'');
 $n_show_upload_photo='';//第几轮是可以查看上传图片的
 //---------------------------------------------------------------------------------
 $n_round=count($a_title);
@@ -208,7 +208,7 @@ if($n_count==0)
 			height:25%;
 			pading:3px;
 			cursor:pointer;
-			margin-left:6%;
+			margin-left:15%;
 		}
 		.button div img:hover{
 			border: 1px solid #ED99A0;
@@ -241,7 +241,7 @@ if($n_count==0)
 	<div class="company">
 	<?php echo($s_company)?>
 	</div>
-	<div style="margin-top:20%">
+	<div style="margin-top:30%">
 		<div class="button">
 			<div class="stop" onclick="stop()">
 				<img src="images/1044_stop.png"/>
@@ -251,10 +251,7 @@ if($n_count==0)
 			</div>
 			<div class="save" onclick="save()">
 				<img src="images/1044_save.png"/>
-			</div>
-			<div class="next"  onclick="location='1044.php?id=<?php echo(($id+1))?>'">
-				<img src="images/1044_next.png"/>
-			</div>		
+			</div>	
 		</div>
 	</div>
 </div>
