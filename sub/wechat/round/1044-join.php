@@ -33,11 +33,20 @@ $o_round->getAllCount();
 $s_text='恭喜您，已进入摇奖池！';
 if ($o_round->getAllCount()>0)
 {
+	//验证用户是否已经在奖池中
 	$o_temp=new WX_User_Activity_Join();
-	$o_temp->setActivityId($o_activity->getId(0));
-	$o_temp->setUserId($o_user->getId(0));
-	$o_temp->setRound1(1);
-	$o_temp->Save();
+	$o_temp->PushWhere(array("&&", "ActivityId", "=",$o_activity->getId(0)));
+	$o_temp->PushWhere(array("&&", "UserId", "=",$o_user->getId(0)));
+	if ($o_temp->getAllCount()==0)
+	{
+		//如果没在奖池，那么添加一个
+		$o_temp=new WX_User_Activity_Join();
+		$o_temp->setActivityId($o_activity->getId(0));
+		$o_temp->setUserId($o_user->getId(0));
+		$o_temp->setRound1(1);
+		$o_temp->Save();
+	}
+	
 }
 ?>
 <!DOCTYPE html>
