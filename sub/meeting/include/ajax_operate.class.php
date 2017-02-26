@@ -90,15 +90,15 @@ class Operate extends Bn_Basic {
 		}
 		//标题行,列名，排序名称，宽度，最小宽度
 		$a_title = array ();
-		$a_title=$this->setTableTitle($a_title,Text::Key('Number'), '', 0, 0);
+		$a_title=$this->setTableTitle($a_title,Text::Key('Number'), '', 0,40);
 		$a_title=$this->setTableTitle($a_title,'会议日期', 'ActivityDate', 0, 0);
 		$a_title=$this->setTableTitle($a_title,'名称', 'Title', 0, 0);
-		$a_title=$this->setTableTitle($a_title,'地区', 'Location', 0, 0);
+		$a_title=$this->setTableTitle($a_title,'地区', 'Location', 0, 40);
 		$a_title=$this->setTableTitle($a_title,'地址', '', 0, 0);
-		$a_title=$this->setTableTitle($a_title,'报名截止', '', 0, 0);
-		$a_title=$this->setTableTitle($a_title,'待审核', '', 0, 0);
-		$a_title=$this->setTableTitle($a_title,'总人数', '', 0, 0);
-		$a_title=$this->setTableTitle($a_title,'签到人数', '', 0, 0);
+		$a_title=$this->setTableTitle($a_title,'报名截止', '', 0, 90);
+		$a_title=$this->setTableTitle($a_title,'待审核', '', 0, 60);
+		$a_title=$this->setTableTitle($a_title,'总人数', '', 0, 60);
+		$a_title=$this->setTableTitle($a_title,'签到人数', '', 0, 70);
 		$a_title=$this->setTableTitle($a_title,Text::Key('Operation'), '', 0, 100);
 		$this->SendJsonResultForTable($n_allcount,'MeetingList', 'yes', $n_page, $a_title, $a_row);
 	}
