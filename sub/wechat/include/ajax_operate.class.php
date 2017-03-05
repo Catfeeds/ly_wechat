@@ -428,26 +428,27 @@ class Operate extends Bn_Basic {
 			$o_round->setSuccess4(1);
 			$o_round->setSuccess5(1);
 			//---------------------------------
+			/*
 			if ($this->getPost('round')==1)
 			{
-				$o_round->setSuccess1(2);
+				$o_round->setSuccess1(1);
 			}
 			if ($this->getPost('round')==2)
 			{
-				$o_round->setSuccess2(2);
+				$o_round->setSuccess2(1);
 			}
 			if ($this->getPost('round')==3)
 			{
-				$o_round->setSuccess3(2);
+				$o_round->setSuccess3(1);
 			}
 			if ($this->getPost('round')==4)
 			{
-				$o_round->setSuccess4(2);
+				$o_round->setSuccess4(1);
 			}
 			if ($this->getPost('round')==5)
 			{
-				$o_round->setSuccess5(2);
-			}
+				$o_round->setSuccess5(1);
+			}*/
 			$o_round->Save();
 		}
 		$a_result = array ();
