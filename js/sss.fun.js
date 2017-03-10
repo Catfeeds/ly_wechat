@@ -17,6 +17,7 @@ try {
 		show_sub_table_title();
 	});
 	$(function(){
+		resize_nav();
 		if (NavIcon == 1) {
 			$(".sss_nav").css('margin-left', '-220px');
 			$(".sss_main_box").css('margin-left', '30px');
@@ -41,7 +42,7 @@ try {
 			radioClass: 'iradio_square-blue',
 			increaseArea: '20%' // optional
 		});
-		resize_nav();
+		
 		$(window).scroll(function () {
         //$(window).scrollTop()这个方法是当前滚动条滚动的距离
         //$(window).height()获取当前窗体的高度
@@ -157,6 +158,7 @@ function resize_nav()
 	$('.sss_nav').height(height)
 	height=$(window).height()-100
 	$('.sss_main').css('min-height',height+'px')
+	$('.sss_footer').css('display','block')
 	if ($(window).width()<767)
 	{
 		$(".sss_nav").css('margin-left', '-250px');

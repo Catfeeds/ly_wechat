@@ -349,7 +349,6 @@ img
 /*Ö÷Ìå*/
 .sss_main
 {
-	min-height:900px;
 	background-color:white;
 
 	padding-bottom:50px;
@@ -567,6 +566,7 @@ img
 	height:50px;
 	background-color:#303641;
 	z-index:-1;
+	display:none;
 	}
 .sss_footer p
 {
