@@ -4,8 +4,25 @@ require_once RELATIVITY_PATH . 'include/db_table.class.php';
 require_once RELATIVITY_PATH . 'include/db_view.class.php';
 require_once RELATIVITY_PATH . 'include/bn_basic.class.php';
 require_once RELATIVITY_PATH . 'include/bn_user.class.php';
-class Operate extends Bn_Basic {
-	
+//因为这个模块带提醒数字图标，如果需要引用本模块的db_table.class.php，需要绝对路径
+class Operate_Control extends Bn_Basic {
+	public function getWaitRead($n_uid)
+	{
+		//因为这个模块带提醒数字图标，所以必须有此方法
+		if (! ($n_uid > 0)) {
+				//直接退出系统
+			return 0;
+		}	
+		$o_user = new Single_User ( $n_uid );
+		$n_count=0;
+		if ($o_user->ValidModule ( 100300 )) {
+
+		}
+		if ($o_user->ValidModule ( 100300 )) {
+
+		}
+		return 20;
+	}
 	public function InfoModify($n_uid)
 	{
 		if (! ($n_uid > 0)) {

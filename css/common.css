@@ -346,6 +346,10 @@ img
 {
     color:#6C7A93;
     }
+.sss_nav_number{
+	background-color:#F43531;
+	float:right;
+}
 /*Ö÷Ìå*/
 .sss_main
 {
@@ -429,6 +433,16 @@ img
     padding-top:5px;
     padding-bottom:5px;
     }
+.sss_main .sss_main_sub .sss_main_sub_nav .sss_main_sub_nav_btn div
+{
+	margin-right:-8px;
+	min-width:6px;
+	width:6px;
+	min-height:6px;
+	background-color:#F43531;
+	padding:0px;
+	float:right
+}
 /*Table*/
 .sss_main .sss_main_sub .sss_sub_table
 {

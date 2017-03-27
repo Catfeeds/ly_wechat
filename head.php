@@ -49,7 +49,7 @@ function ExportMainTitle($id,$n_uid)
 			{
 				$s_on=' class="active"';
 			}
-			echo('<li'.$s_on.' onclick="change_sub_nav(this);location=\''.RELATIVITY_PATH.$o_userModule->getPath($i).'\'"><a class="sss_main_sub_nav_btn">'.$o_userModule->getModuleName($i).'</a></li>');
+			echo('<li'.$s_on.' onclick="change_sub_nav(this);location=\''.RELATIVITY_PATH.$o_userModule->getPath($i).'\'"><a class="sss_main_sub_nav_btn"> <div id="sub_nav_'.$o_userModule->getModuleId($i).'" class="badge"></div>'.$o_userModule->getModuleName($i).'</a></li>');
 		}
 		for($k = 1; $k <= 5; $k ++) {
 			eval ( '$o_userModule = new View_User_Right_Sec' . $k . ' ();' );
@@ -68,7 +68,7 @@ function ExportMainTitle($id,$n_uid)
 				{
 					$s_on=' class="active"';
 				}
-				echo('<li'.$s_on.' onclick="change_sub_nav(this);location=\''.RELATIVITY_PATH.$o_userModule->getPath($i).'\'"><a class="sss_main_sub_nav_btn">'.$o_userModule->getModuleName($i).'</a></li>');
+				echo('<li'.$s_on.' onclick="change_sub_nav(this);location=\''.RELATIVITY_PATH.$o_userModule->getPath($i).'\'"><a class="sss_main_sub_nav_btn"> <div id="sub_nav_'.$o_userModule->getModuleId($i).'" class="badge"></div>'.$o_userModule->getModuleName($i).'</a></li>');
 			}
 		}
 		echo('
@@ -76,69 +76,6 @@ function ExportMainTitle($id,$n_uid)
 	                    </div>		
 		');
 	}
-}
-function GetNav($id,$n_uid)
-{
-	require_once RELATIVITY_PATH . 'include/ajax_operate.class.php';
- 	$o_operate = new Operate ();
-	$a_data=array();
-	$n_modelid=$id;
-	$a_model=array();
-	$n_parentid=0;
-	//计算当前模块的根模块ID
-	if($n_modelid>0)
-	{
-		$o_current=new Base_Module($n_modelid);
-		if ($o_current->getParentModuleId()>0)
-		{
-			$o_current2=new Base_Module($o_current->getParentModuleId());
-			if($o_current2->getParentModuleId()>0)
-			{
-				$n_parentid=$o_current2->getParentModuleId();
-			}else{
-				$n_parentid=$o_current->getParentModuleId();
-			}
-		}else{
-			$n_parentid=$n_modelid;
-		}
-	}
-	//获取所有根模块
-	$o_model = new View_User_Right ();
-	$o_model->PushWhere ( array ('&&', 'Uid', '=',$n_uid ) );
-	$o_model->PushWhere ( array ('&&', 'ParentModuleId', '=', 0 ) );
-	$o_model->PushOrder ( array ('Module', 'A' ) );
-	$n_count=$o_model->getAllCount();
-	for($i=0;$i<$n_count;$i++)
-	{
-		//输出
-		$s_active='';
-		if($n_parentid==$o_model->getModuleId ( $i ))
-		{
-			$s_active=' active';//设置一个高亮值，javascript
-		}
-		echo('<a class="list-group-item'.$s_active.'" onclick="location=\''.RELATIVITY_PATH.$o_operate->getSubPage($n_uid,$o_model->getModuleId($i)).'\'"><span class="glyphicon '.$o_model->getIconPathB ( $i ).'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.$o_model->getModuleName ( $i ).'</span></a>');
-	}
-	for($k = 1; $k <= 5; $k ++) {
-		eval ( '$o_model = new View_User_Right_Sec' . $k . ' ();' );
-		$o_model->PushWhere ( array ('&&', 'Uid', '=', $n_uid ) );
-		$o_model->PushWhere ( array ('&&', 'ParentModuleId', '=', 0 ) );
-		$o_model->PushOrder ( array ('Module', 'A' ) );
-		$n_count = $o_model->getAllCount ();
-		for($i = 0; $i < $n_count; $i ++) {
-			if (in_array($o_model->getModuleId ( $i ), $a_model))
-			{
-				continue;
-			}
-			//输出
-			$s_active='';
-			if($n_parentid==$o_model->getModuleId ( $i ))
-			{
-				$s_active=' active';//设置一个高亮值，javascript
-			}
-			echo('<a class="list-group-item'.$s_active.'" onclick="location=\''.RELATIVITY_PATH.$o_operate->getSubPage($n_uid,$o_model->getModuleId($i)).'\'"><span class="glyphicon '.$o_model->getIconPathB ( $i ).'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.$o_model->getModuleName ( $i ).'</span></a>');
-		}
-	}
-	echo('<a class="list-group-item" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;<span class="title">'.Text::Key('Logout').'</span></a>');
 }
 $o_user = new Single_User($O_Session->getUid());
 $o_setup=new Base_Setup(1);
@@ -154,7 +91,6 @@ $o_setup=new Base_Setup(1);
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top sss_top">
-<div class="progress_bar" style="width:0%;height:3px;background-color:#f0ad4e;position:absolute;"></div>
 	<div class="sss_logo">
 		<img src="<?php echo(RELATIVITY_PATH.$o_setup->getLogo())?>" alt="" />
 	</div>
@@ -219,8 +155,12 @@ $o_setup=new Base_Setup(1);
             <div class="sss_nav_cut">
             </div>
             <div id="nav" class="list-group sss_nav_menu">
-            <?php echo(GetNav(MODULEID,$o_user->getUid()))?>
             </div>
+            <script>
+				var ModuleId=<?php echo(MODULEID)?>;
+        		get_nav(ModuleId);
+        		//或某些地方，需要刷新主菜单，请使用get_nav(ModuleId)。
+            </script>
         </div>
         <div class="sss_main_box">
             <div class="sss_main">

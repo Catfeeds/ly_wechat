@@ -31,3 +31,15 @@ function password_modify()
 	loading_show();
 	$('#submit_form').submit();
 }
+//根据业务需要，可以自行获取红点
+function get_red_point(n_module_id)
+{
+	var number=5;
+	//发送ajax到后台获取数值
+	if(number>0)
+	{
+		$('#sub_nav_'+n_module_id).show()
+	}else{
+		$('#sub_nav_'+n_module_id).hide()
+	}
+}

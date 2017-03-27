@@ -411,6 +411,45 @@ function show_sub_table_title()
 		$('.sss_main .sss_main_sub .sss_main_sub_top .tablehead').html('');
 	}
 }
+function get_nav(model_id)
+{
+    var data='Ajax_FunName=GetNav';//后台方法
+    data=data+'&id='+model_id
+    $.getJSON(RootPath+"include/bn_submit.switch.php",data,function (json){
+		var a_arr=[];
+		for(var i=0;i<json.length;i++)
+        {
+			var active='';
+			if(json[i].active==1)
+			{
+				active=' active';
+			}
+            a_arr.push('<a class="list-group-item'+active+'" onclick="location=\''+RootPath+json[i].path+'\'"><span class="glyphicon '+json[i].icon+'"></span>&nbsp;&nbsp;&nbsp;<span class="title">'+json[i].name+'</span></a>');
+        }
+		a_arr.push('<a class="list-group-item" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;<span class="title">'+Language['Logout']+'</span></a>');
+		$('#nav').hide();
+		$('#nav').html(a_arr.join('\n'));
+		$('#nav').show();
+		//导航是否显示图标
+		if(NavIcon==1)
+		{
+			$(".sss_nav .title").hide();
+			$(".sss_nav .glyphicon").css('float', 'right');
+			$(".sss_nav .list-group-item").css('padding-right', '10px');
+			//添加文字提示
+			var item=$(".sss_nav_menu").children('.list-group-item')
+			for(var i=0;i<item.length;i++)
+			{
+				var title=$(item[i]).find('.title')
+				title=$(title[0]).html();
+				title=title.replace('&nbsp;','')
+				title=title.replace('&nbsp;','')
+				title=title.replace('&nbsp;','')
+				$(item[i]).attr('title',title)
+			}
+		}
+    })  	
+}
 $(document).scroll(function(){
 	show_sub_table_title();
 })

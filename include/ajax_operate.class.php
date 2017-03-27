@@ -135,15 +135,26 @@ class Operate extends Bn_Basic {
 		$n_count=$o_model->getAllCount();
 		for($i=0;$i<$n_count;$i++)
 		{
+			$n_wait='';
 			array_push($a_model, $o_model->getModuleId ( $i ));
 			$n_active=0;
 			if($n_parentid==$o_model->getModuleId ( $i ))
 			{
 				$n_active=1;//设置一个高亮值，javascript
 			}
+			//显示提醒数字图标
+			if ($o_model->getWaitReadTable ( $i ) != '') {
+				eval ( 'require_once RELATIVITY_PATH . \'' . str_replace('index.php', '', $o_model->getPath ( $i )) . 'include/ajax_operate.class.php\';' );
+				eval ( '$o_operate=new Operate_'.$o_model->getWaitReadTable ( $i ).'();' );
+				$n_wait=$o_operate->getWaitRead($n_uid);
+				if ($n_wait==0)
+				{
+					$n_wait='';
+				}
+			}
 			//循环模块信息
 			$a_temp = array (
-					'name' =>$o_model->getModuleName ( $i ),
+					'name' =>$o_model->getModuleName ( $i ).'<div class="badge sss_nav_number" >'.$n_wait.'</div>',
 					'path' =>$o_model->getPath( $i ),
 					'active' =>$n_active,
 					'icon' =>$o_model->getIconPathB ( $i )
@@ -156,20 +167,31 @@ class Operate extends Bn_Basic {
 			$o_model->PushWhere ( array ('&&', 'ParentModuleId', '=', 0 ) );
 			$o_model->PushOrder ( array ('Module', 'A' ) );
 			$n_count = $o_model->getAllCount ();
-			for($i = 0; $i < $n_count; $i ++) {
+			for($i = 0; $i < $n_count; $i ++) {				
 				if (in_array($o_model->getModuleId ( $i ), $a_model))
 				{
 					continue;
 				}
+				$n_wait='';
 				array_push($a_model, $o_model->getModuleId ( $i ));
 				$n_active=0;
 				if($n_parentid==$o_model->getModuleId ( $i ))
 				{
 					$n_active=1;//设置一个高亮值，javascript
 				}
+				//显示提醒数字图标
+				if ($o_model->getWaitReadTable ( $i ) != '') {
+					eval ( 'require_once RELATIVITY_PATH . \'' . str_replace('index.php', '', $o_model->getPath ( $i )) . 'include/ajax_operate.class.php\';' );
+					eval ( '$o_operate=new Operate_'.$o_model->getWaitReadTable ( $i ).'();' );
+					$n_wait=$o_operate->getWaitRead($n_uid);
+					if ($n_wait==0)
+					{
+						$n_wait='';
+					}
+				}
 				//循环模块信息
 				$a_temp = array (
-						'name' =>$o_model->getModuleName ( $i ),
+						'name' =>$o_model->getModuleName ( $i ).' <div class="badge sss_nav_number">'.$n_wait.'</div>',
 						'path' =>$o_model->getPath( $i ),
 						'active' =>$n_active,
 						'icon' =>$o_model->getIconPathB ( $i )
