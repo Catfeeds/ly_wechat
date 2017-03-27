@@ -35,7 +35,7 @@ $s_desc='南京站、杭州站、重庆站、成都站、网上报名启动';
 </head>
 <body>
 <div id="shareImage" style="display: none;">
-    <img src="http://wx.travellinkdaily.com/event/sub/wechat/images/invitation/1036_icon.jpg">
+    <img src="http://wx.travellinkdaily.com/event/sub/wechat/images/invitation/1044_icon.jpg">
 </div>
 	<div>
 		<img src="../images/invitation/1044_01.jpg"/>

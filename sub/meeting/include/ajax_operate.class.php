@@ -224,7 +224,7 @@ class Operate extends Bn_Basic {
 		$a_title=$this->setTableTitle($a_title,'邮箱', '', 0, 0);
 		$a_title=$this->setTableTitle($a_title,'审核', 'AuditFlag', 0, 60);
 		$a_title=$this->setTableTitle($a_title,'签到', 'SigninFlag', 0, 60);
-		$a_title=$this->setTableTitle($a_title,Text::Key('Operation'), '', 0, 65);
+		$a_title=$this->setTableTitle($a_title,Text::Key('Operation'), '', 0, 85);
 		$this->SendJsonResultForTable($n_allcount,'MeetingAuditList', 'yes', $n_page, $a_title, $a_row);
 	}
 	public function MeetingKeyAgent($n_uid)
