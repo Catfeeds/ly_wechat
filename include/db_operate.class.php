@@ -26,7 +26,7 @@ abstract class CRUD extends DB_Connect {
 		$this->B_IsLoaded = false;
 		$this->B_LoadDataSet = false;
 		if (isset ( $value )) {
-			$this->S_Value = $value;
+			$this->S_Value = str_replace ( '\'', '`', $value ) ;
 		}
 		$this->A_ModifiedRelations = array ();
 		$this->A_Order_By = array ();
