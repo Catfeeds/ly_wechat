@@ -41,6 +41,7 @@ class Session extends Bn_Basic {
 			//setcookie ( 'VISITER', $s_username, 0 );
 			//setcookie ( 'SESSIONID', $this->S_Session_Id, 0 );
 			//setcookie ( 'VALIDCODE', '  ', 0 );
+			$this->N_Uid = 0;
 			$this->B_Login = false;
 		}
 	

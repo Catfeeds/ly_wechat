@@ -202,6 +202,12 @@ class Operate extends Bn_Basic {
 		echo(json_encode ($a_data));
 	}
 	public function getSubPage($n_uid,$n_module_id){
+		//如果用户ID=0，那么退出
+ 		if ($n_uid==0)
+ 		{
+ 			echo ('<script type="text/javascript" src="'.RELATIVITY_PATH.'js/initialize.js"></script><script type="text/javascript">goto_login()</script>');
+ 			exit (0);
+ 		}
 		$s_url='';
 		//获得本模块下第一个子模块的链接地址
 		$o_module = new Base_Module ( $n_module_id);
