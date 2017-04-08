@@ -293,7 +293,7 @@ function table_load(fun,item,sort,page,key,other_key)
 						s_sign=' <span class="glyphicon glyphicon-triangle-bottom"></span>';
 					}
 				}		
-				a_arr.push('<span class="sort_title" onclick="table_sort(\''+json.funname+'\',\''+a_temp.item+'\',\''+sort+'\',1,\''+key+'\',\''+other_key+'\')">'+a_temp.title+'</span>'+s_sign);
+				a_arr.push('<span class="sort_title" onclick="table_sort(\''+json.funname+'\',\''+a_temp.item+'\',\''+sort+'\',1,\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')">'+a_temp.title+'</span>'+s_sign);
 			}
 			a_arr.push('</th>');
 		}
@@ -343,7 +343,7 @@ function table_load(fun,item,sort,page,key,other_key)
 		{
 			a_arr.push('<ul class="pagination">');
 			if (page>1){
-				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['Prev']+'" aria-label="Previous" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+(page-1)+'\',\''+key+'\',\''+other_key+'\')"><span aria-hidden="true">&laquo;</span></a></li>');
+				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['Prev']+'" aria-label="Previous" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+(page-1)+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')"><span aria-hidden="true">&laquo;</span></a></li>');
 			}
 			//取余数
 			var yu=Math.floor((page-1)/show);
@@ -359,7 +359,7 @@ function table_load(fun,item,sort,page,key,other_key)
 				}
 			}
 			if (page < pagesum) {
-				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['Next']+'" aria-label="Next" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+(page+1)+'\',\''+key+'\',\''+other_key+'\')"><span aria-hidden="true">&raquo;</span></a></li>');
+				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['Next']+'" aria-label="Next" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+(page+1)+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')"><span aria-hidden="true">&raquo;</span></a></li>');
 			}
 			a_arr.push('</ul>');
 		}
