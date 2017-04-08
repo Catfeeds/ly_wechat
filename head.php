@@ -83,7 +83,7 @@ $o_setup=new Base_Setup(1);
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title><?php echo(Text::Key('SystemName'))?></title>
+    <title><?php echo($o_setup->getSystemName())?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script src="<?php echo(RELATIVITY_PATH)?>js/initialize.js" type="text/javascript"></script>

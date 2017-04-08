@@ -33,6 +33,7 @@ class Operate extends Bn_Basic {
 			$o_activity->PushWhere ( array ('&&', 'Type', '=',1) );
 		}
 		$o_activity->PushOrder ( array ($this->getPost('item'), $this->getPost('sort') ) );
+		$o_activity->PushOrder ( array ('ActivityTime','A') );
 		$o_activity->setStartLine ( ($n_page - 1) * $this->N_PageSize ); //起始记录
 		$o_activity->setCountLine ( $this->N_PageSize );
 		$n_count = $o_activity->getAllCount ();

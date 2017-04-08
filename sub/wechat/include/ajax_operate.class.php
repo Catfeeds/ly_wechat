@@ -142,7 +142,7 @@ class Operate extends Bn_Basic {
 	}
 	public function Signin()
 	{
-		sleep(2);
+		sleep(1);
 		require_once 'userGroup.class.php';
 		require_once RELATIVITY_PATH . 'sub/wechat/include/accessToken.class.php';
 		$o_token=new accessToken();
@@ -297,6 +297,115 @@ class Operate extends Bn_Basic {
 		    $o_join->Save();
 		}
 		$this->setReturn ( 'parent.submit_success()' );
+	}
+	public function SigninFor1055()
+	{
+		sleep(1);
+		require_once 'userGroup.class.php';
+		require_once RELATIVITY_PATH . 'sub/wechat/include/accessToken.class.php';
+		$o_token=new accessToken();
+		$curlUtil = new curlUtil();
+		$openId = $this->getPost('OpenId');
+		$o_token=new accessToken();
+		$s_token=$o_token->access_token;
+		//通过接口获取用户OpenId
+		$s_url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$s_token.'&openid='.$openId.'&lang=zh_CN';
+		$o_util=new curlUtil();
+		$s_return=$o_util->https_request($s_url);
+		$a_user_info=json_decode($s_return, true);
+		//判断是否在场外报名表中
+		$o_temp=new WX_User_Info_Temp();
+		$o_temp->PushWhere(array("&&", "Phone", "=",$this->getPost('Phone')));
+		if ($o_temp->getAllCount()>0)
+		{
+			//说明是场外报名，那么进入签到流程
+			$o_user_info=new WX_User_Info();
+			$o_user_info->PushWhere(array("&&", "OpenId", "=",$openId));
+			$n_user_id=0;
+			if ($o_user_info->getAllCount()==0)
+			{
+				//是现场签到的用户，并且没有信息，需要新建信息
+				//需要新建用户信息
+				$o_new_user=new WX_User_Info();
+				$o_new_user->setPhoto($a_user_info['headimgurl']);
+				$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
+				if ($a_user_info['sex']==2)
+				{
+					$o_new_user->setSex('女');
+				}else{
+					$o_new_user->setSex('男');
+				}			
+				$o_new_user->setUserName($o_temp->getUserName(0));
+				$o_new_user->setCompany($o_temp->getCompany(0));
+				$o_new_user->setCompanyEn('');
+				$o_new_user->setAddress('');
+				$o_new_user->setDeptJob($o_temp->getDeptJob(0));
+				$o_new_user->setPhone($o_temp->getPhone(0));
+				$o_new_user->setEmail($o_temp->getEmail(0));
+				$o_new_user->setRegisterDate($this->GetDate());
+				$o_new_user->setOpenId($this->getPost('OpenId'));
+				$o_new_user->setDelFlag(0);
+				$b_rusult=$o_new_user->Save();
+				$n_user_id=$o_new_user->getId();
+			}else{
+				$n_user_id=$o_user_info->getId(0);
+				$o_new_user=new WX_User_Info($n_user_id);
+				$o_new_user->setPhoto($a_user_info['headimgurl']);
+				$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
+				$o_new_user->setUserName($o_temp->getUserName(0));
+				$o_new_user->setCompany($o_temp->getCompany(0));
+				$o_new_user->setCompanyEn('');
+				$o_new_user->setDeptJob($o_temp->getDeptJob(0));
+				$o_new_user->setPhone($o_temp->getPhone(0));
+				$o_new_user->setEmail($o_temp->getEmail(0));
+				$o_new_user->setDelFlag(0);
+				$o_new_user->Save();
+			}
+			$o_user_activity=new WX_User_Activity();
+			$o_user_activity->PushWhere(array("&&", "ActivityId", "=", $this->getPost('Id')));
+			$o_user_activity->PushWhere(array("&&", "UserId", "=", $n_user_id));
+			if ($o_user_activity->getAllCount()>0)
+			{
+				$this->setReturn ('parent.submit_success()');
+			}
+			//建立数据
+			$o_user_activity=new WX_User_Activity();
+			$o_user_activity->setActivityId($this->getPost('Id'));
+			$o_user_activity->setUserId($n_user_id);
+			$o_user_activity->setSigninFlag(1);
+			$o_user_activity->setOnsiteFlag(0);//如果没有临时信息，那么属于现场签到
+			$o_user_activity->setAuditFlag(1);
+			$o_user_activity->Save();
+				
+			//开始用户分组
+			$o_sysinfo=new Base_Setup(1);
+			$o_activity=new WX_Activity($this->getPost('Id'));
+			//是否加注册成功页面
+			$s_reg_page='';
+			//发送确认信息
+			$s_url='https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$o_token->access_token;
+			$data = array(
+		    	'touser' => $openId, // openid是发送消息的基础
+				'template_id' => 'ncHgsg53CN7CQYs7MJMk9iW-U5NDTUyMyTC3fnsKPIo', // 模板id
+				'url' => $o_sysinfo->getHomeUrl().'sub/wechat/signin_success_'.$s_reg_page.$this->getPost('SceneId').'.php', // 点击跳转地址
+				'topcolor' => '#FF0000', // 顶部颜色
+				'data' => array(
+					'first' => array('value' => '微信扫码签到成功！
+				'),
+					'keyword1' => array('value' => $o_activity->getTitle(),'color'=>'#173177'),
+					'keyword2' => array('value' => $o_activity->getAddress(),'color'=>'#173177'),
+					'keyword3' => array('value' => $o_temp->getUserName(0),'color'=>'#173177'),
+					'keyword4' => array('value' => $o_temp->getPhone(0),'color'=>'#173177'),
+					'remark' => array('value' => '')
+				)
+				);
+			$curlUtil->https_request($s_url, json_encode($data));
+			$this->setReturn ( 'parent.submit_success()' );
+		}else{
+			$this->setReturn ( 'parent.submit_goto_reg()' );
+		}
+		
+		
 	}
 	/* 2016迪拜邮轮中国路演
 	public function Signin()
