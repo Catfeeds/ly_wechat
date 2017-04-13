@@ -145,7 +145,8 @@ function show_nav_wide() {
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
-				$(item[i]).attr('title',title)
+				var a_title=title.split('<div')
+				$(item[i]).attr('title',a_title[0])
 			}
 			//加入修正表格标题浮动代码
 			show_sub_table_title();
@@ -179,7 +180,8 @@ function resize_nav()
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
-				$(item[i]).attr('title',title)
+				var a_title=title.split('<div')
+				$(item[i]).attr('title',a_title[0])
 			}
 		}else{
 			$(".sss_nav").css('margin-left', '0px');
@@ -445,7 +447,8 @@ function get_nav(model_id)
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
 				title=title.replace('&nbsp;','')
-				$(item[i]).attr('title',title)
+				var a_title=title.split('<div')
+				$(item[i]).attr('title',a_title[0])
 			}
 		}
     })  	
