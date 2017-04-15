@@ -194,6 +194,11 @@ body{
 	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {WeixinJSBridge.call('hideOptionMenu');});
 	function submit_info()
 	{
+		if (del_trim(document.getElementById("Vcl_Name").value)=='')
+		{
+			dialog_show('请填写姓名');
+			return;
+		}
 		if (del_trim(document.getElementById("Vcl_Company").value)=='')
 		{
 			dialog_show("请填写公司名称")
@@ -203,12 +208,7 @@ body{
 		{
 			dialog_show('请填写职务');
 			return;
-		}
-		if (del_trim(document.getElementById("Vcl_Name").value)=='')
-		{
-			dialog_show('请填写姓名');
-			return;
-		}
+		}		
 		if (del_trim(document.getElementById("Vcl_Phone").value)=='')
 		{
 			dialog_show('请填写手机');

@@ -246,7 +246,7 @@ function save()
 		dialog_confirm('真的要保存中奖信息吗？',function(){
 			Save=1;
 			Round.splice(Round_Id,1)
-			 	$.getJSON("include/bn_submit.switch.php",data,function (json){
+			 	$.getJSON("../include/bn_submit.switch.php",data,function (json){
 				//window.alert(json)
     		})	 
 		})

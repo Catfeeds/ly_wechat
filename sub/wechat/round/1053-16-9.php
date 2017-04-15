@@ -25,7 +25,7 @@ if ($_GET['id']>=1 && $_GET['id']<=$n_round)
 //获取活动Id
 $o_date = new DateTime ( 'Asia/Chongqing' );
 $s_date=$o_date->format ( 'Y' ) . '-' . $o_date->format ( 'm' ) . '-' . $o_date->format ( 'd' ) ;//获取当前日期
-//$s_date='2017-04-18';
+//$s_date='2016-08-01';
 $o_activity=new WX_Activity();
 $o_activity->PushWhere(array("&&", "ActivityDate", "=",$s_date));
 $o_activity->getAllCount();
@@ -183,7 +183,7 @@ if($n_count==0)
 		?>
 	</div>
 	<div class="button">
-		<div class="next" onclick="location='1053-4-3.php?id=<?php echo(($id+1))?>'">
+		<div class="next" onclick="location='1053-16-9.php?id=<?php echo(($id+1))?>'">
 			<img src="../images/round/1015_next.png"/>
 		</div>
 		<div class="goon" onclick="start()">
@@ -242,7 +242,7 @@ function show_photo()
 	if(timer==0)
 	{
    	 	var data='Ajax_FunName=getUserUploadPhoto&id='+Round[Round_Id]+'&round=<?php echo($id)?>';//后台方法
-			 $.getJSON("include/bn_submit.switch.php",data,function (json){
+			 $.getJSON("../include/bn_submit.switch.php",data,function (json){
 				//window.alert(json)
 				if (json.photo!='')
 				{
@@ -263,7 +263,7 @@ function save()
 		dialog_confirm('真的要保存中奖信息吗？',function(){
 			Save=1;
 			Round.splice(Round_Id,1)
-			 	$.getJSON("include/bn_submit.switch.php",data,function (json){
+			 	$.getJSON("../include/bn_submit.switch.php",data,function (json){
 				//window.alert(json)
     		})	 
 		})

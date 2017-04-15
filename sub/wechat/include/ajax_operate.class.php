@@ -32,6 +32,7 @@ class Operate extends Bn_Basic {
 		{
 			//需要新建用户信息
 			$o_new_user=new WX_User_Info();
+			$o_new_user->setRegisterDate($this->GetDate());
 		}else{
 			$o_new_user=new WX_User_Info($o_user_info->getId(0));
 		}
@@ -49,8 +50,7 @@ class Operate extends Bn_Basic {
 		$o_new_user->setAddress('');
 		$o_new_user->setDeptJob($this->getPost('DeptJob'));
 		$o_new_user->setPhone($this->getPost('Phone'));
-		$o_new_user->setEmail($this->getPost('Email'));
-		$o_new_user->setRegisterDate($this->GetDate());
+		$o_new_user->setEmail($this->getPost('Email'));		
 		$o_new_user->setOpenId($this->getPost('OpenId'));
 		$o_new_user->setDelFlag(0);
 		$b_rusult=$o_new_user->Save();
@@ -218,6 +218,7 @@ class Operate extends Bn_Basic {
 		$o_user_activity->PushWhere(array("&&", "UserId", "=", $n_user_id));
 		if($o_user_activity->getAllCount()>0)
 		{
+			$this->setReturn ( 'parent.submit_success()' );//真对1055活动，如果不需要，请删除 
 			//说明是已经报名的用户，标记为已签到
 			$o_user_activity=new WX_User_Activity($o_user_activity->getId(0));
 			$o_user_activity->setSigninFlag(1);
@@ -407,6 +408,7 @@ class Operate extends Bn_Basic {
 		
 		
 	}
+	
 	/* 2016迪拜邮轮中国路演
 	public function Signin()
 	{
@@ -531,13 +533,13 @@ class Operate extends Bn_Basic {
 		if($o_round->getUserId()>0)//判断用户抽奖信息是否存在。
 		{
 			//--------------------------------确保只要被抽中一次，就没有别的机会了
-			$o_round->setSuccess1(1);
-			$o_round->setSuccess2(1);
-			$o_round->setSuccess3(1);
-			$o_round->setSuccess4(1);
-			$o_round->setSuccess5(1);
+			//$o_round->setSuccess1(1);
+			//$o_round->setSuccess2(1);
+			//$o_round->setSuccess3(1);
+			//$o_round->setSuccess4(1);
+			//$o_round->setSuccess5(1);
 			//---------------------------------
-			/*
+			
 			if ($this->getPost('round')==1)
 			{
 				$o_round->setSuccess1(1);
@@ -557,10 +559,10 @@ class Operate extends Bn_Basic {
 			if ($this->getPost('round')==5)
 			{
 				$o_round->setSuccess5(1);
-			}*/
+			}
 			$o_round->Save();
 		}
-		$a_result = array ();
+		$a_result = array ($this->getPost('id'));
 		echo(json_encode ($a_result));
 		
 	}

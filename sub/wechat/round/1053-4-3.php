@@ -25,7 +25,7 @@ if ($_GET['id']>=1 && $_GET['id']<=$n_round)
 //获取活动Id
 $o_date = new DateTime ( 'Asia/Chongqing' );
 $s_date=$o_date->format ( 'Y' ) . '-' . $o_date->format ( 'm' ) . '-' . $o_date->format ( 'd' ) ;//获取当前日期
-//$s_date='2017-04-18';
+//$s_date='2016-08-01';
 $o_activity=new WX_Activity();
 $o_activity->PushWhere(array("&&", "ActivityDate", "=",$s_date));
 $o_activity->getAllCount();
@@ -263,8 +263,8 @@ function save()
 		dialog_confirm('真的要保存中奖信息吗？',function(){
 			Save=1;
 			Round.splice(Round_Id,1)
-			 	$.getJSON("include/bn_submit.switch.php",data,function (json){
-				//window.alert(json)
+			 	$.getJSON("../include/bn_submit.switch.php",data,function (json){
+				//window.alert()
     		})	 
 		})
 	}

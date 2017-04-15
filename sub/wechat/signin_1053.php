@@ -172,7 +172,7 @@ if($o_user_activity->getSigninFlag(0)==1)
     		<img src="images/activity/1053_reg_top.jpg"/>
     	</div>
     	<div class="input">
-    	   <input type="text" placeholder="手机号码" name="Vcl_Phone" id="Vcl_Phone" value=""/>
+    	   <input type="text" placeholder="手机号码" name="Vcl_Phone" id="Vcl_Phone" value="" type="number" pattern="[0-9]*"/>
     	   <div class="line"></div>
     	</div>
     	<p style="text-align:center;padding-top:20px;font-size:14px;font-weight:bold">
@@ -210,7 +210,7 @@ if($o_user_activity->getSigninFlag(0)==1)
 	function submit_goto_reg()
 	{
 		dialog_loading_close()
-		dialog_show_reg('对不起，您之前没有注册过，需要完善信息。');
+		dialog_show_reg('对不起，您之前没有注册过，<br/>点击“确定”完善信息。');
 	}
 	function submit_goto_reg_action()
 	{
