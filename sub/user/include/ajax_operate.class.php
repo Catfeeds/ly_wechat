@@ -60,14 +60,6 @@ class Operate extends Bn_Basic {
 			{
 				$s_sign_name=' <span class="label label-danger">取消关注</span>';
 			}
-			
-			//构建参会场次
-			$a_items=json_decode($o_user->getItems ( $i ));
-			$s_items='';
-			for($k=0;$k<count($a_items);$k++)
-			{
-			    $s_items.=urldecode($a_items[$k]).'<br/>';
-			}
 			array_push ($a_row, array (
 				($i+1+$this->N_PageSize*($n_page-1)),
 				'<img style="width:32px;height:32px;cursor:pointer;" src="'.$o_user->getPhoto ( $i ).'" onclick="open_photo(\''.$o_user->getPhoto ( $i ).'\')">',
