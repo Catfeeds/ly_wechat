@@ -22,8 +22,8 @@ class accessToken{
 		$count = $o_syscode->getAllCount();
         $token = $o_syscode->getSysToken(0);
 		$curlUtil = new curlUtil();
-		$openId = $o_userUtil->open_id;
-		//Access Token时效目前只有7200s，这里是判断超时重新生成新的Token
+		$openId = 'ogCdfwqkTg-t4JPjszNWh2kwbVBw';//为了防止accesstoken失效，先获取一个用户的信息，如果获取不成功，说明失效 
+		//Access Token时效目前只有7200s，这里是判断超时重新生成新的Token 
 		$lasttime = $o_syscode->getCreateDate(0);
 		
 		//验证token是否有效

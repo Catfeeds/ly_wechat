@@ -299,6 +299,12 @@ class Operate extends Bn_Basic {
 		}
 		$this->setReturn ( 'parent.submit_success()' );
 	}
+	private function delEnter($str)
+	{
+		//去掉数据中的回车，只取第一行文字 
+		 $a_str=explode("\n", $str);
+		 return $a_str[0];
+	}
 	public function SigninFor1055()
 	{
 		sleep(1);
@@ -336,13 +342,13 @@ class Operate extends Bn_Basic {
 				}else{
 					$o_new_user->setSex('男');
 				}			
-				$o_new_user->setUserName($o_temp->getUserName(0));
-				$o_new_user->setCompany($o_temp->getCompany(0));
+				$o_new_user->setUserName($this->delEnter($o_temp->getUserName(0)));
+				$o_new_user->setCompany($this->delEnter($o_temp->getCompany(0)));
 				$o_new_user->setCompanyEn('');
 				$o_new_user->setAddress('');
-				$o_new_user->setDeptJob($o_temp->getDeptJob(0));
+				$o_new_user->setDeptJob($this->delEnter($o_temp->getDeptJob(0)));
 				$o_new_user->setPhone($o_temp->getPhone(0));
-				$o_new_user->setEmail($o_temp->getEmail(0));
+				$o_new_user->setEmail($this->delEnter($o_temp->getEmail(0)));
 				$o_new_user->setRegisterDate($this->GetDate());
 				$o_new_user->setOpenId($this->getPost('OpenId'));
 				$o_new_user->setDelFlag(0);
@@ -353,12 +359,12 @@ class Operate extends Bn_Basic {
 				$o_new_user=new WX_User_Info($n_user_id);
 				$o_new_user->setPhoto($a_user_info['headimgurl']);
 				$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
-				$o_new_user->setUserName($o_temp->getUserName(0));
-				$o_new_user->setCompany($o_temp->getCompany(0));
+				$o_new_user->setUserName($this->delEnter($o_temp->getUserName(0)));
+				$o_new_user->setCompany($this->delEnter($o_temp->getCompany(0)));
 				$o_new_user->setCompanyEn('');
-				$o_new_user->setDeptJob($o_temp->getDeptJob(0));
+				$o_new_user->setDeptJob($this->delEnter($o_temp->getDeptJob(0)));
 				$o_new_user->setPhone($o_temp->getPhone(0));
-				$o_new_user->setEmail($o_temp->getEmail(0));
+				$o_new_user->setEmail($this->delEnter($o_temp->getEmail(0)));
 				$o_new_user->setDelFlag(0);
 				$o_new_user->Save();
 			}
