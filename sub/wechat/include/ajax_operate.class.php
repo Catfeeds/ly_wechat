@@ -183,20 +183,6 @@ class Operate extends Bn_Basic {
 			$o_new_user->setOpenId($this->getPost('OpenId'));
 			$o_new_user->setDelFlag(0);
 			$b_rusult=$o_new_user->Save();
-			if ($b_rusult!=true)
-			{
-				$nickname=$this->FilterEmoji($a_user_info['nickname']);
-				$audit=1;
-				$onsite=0;
-				if ($this->getPost('Reg')=='0')
-				{
-					$onsite=1;;//如果没有临时信息，那么属于现场签到
-				}
-				$sign=1;
-				//如果保存失败，那么给出提示。
-				require_once 'log.php';
-				//$this->setReturn ( 'parent.dialog_close();parent.dialog_show("对不起，提交信息失败，请重试！<br/>如多次失败，请重新进入报名。");' );
-			}
 			$n_user_id=$o_new_user->getId();
 		}else{
 			$n_user_id=$o_user_info->getId(0);
@@ -218,9 +204,13 @@ class Operate extends Bn_Basic {
 		$o_user_activity->PushWhere(array("&&", "UserId", "=", $n_user_id));
 		if($o_user_activity->getAllCount()>0)
 		{
-			$this->setReturn ( 'parent.submit_success()' );//真对1055活动，如果不需要，请删除 
 			//说明是已经报名的用户，标记为已签到
 			$o_user_activity=new WX_User_Activity($o_user_activity->getId(0));
+			//如果已经签到，那么直接返回
+			if($o_user_activity->getSigninFlag()==1)
+			{
+				return;
+			}
 			$o_user_activity->setSigninFlag(1);
 			if ($this->getPost('Reg')=='0')
 			{
@@ -267,6 +257,7 @@ class Operate extends Bn_Basic {
 			)
 			);
 		$curlUtil->https_request($s_url, json_encode($data));
+		/*
 		//检查临时用户是否签到，如果是，标注签到
 		$o_user_temp=new WX_User_Info_Temp();
 		$o_user_temp->PushWhere(array("&&", "ActivityId", "=", $this->getPost('Id')));
@@ -278,12 +269,14 @@ class Operate extends Bn_Basic {
 			$o_temp->setSigninFlag(1);
 			$o_temp->Save();
 		}
-		//如果活动ID=1042，那么自动进入奖池
-		if($this->getPost('Id')=='1042')
+		*/
+		/*
+		//如果活动ID=1074，那么自动进入奖池
+		if($this->getPost('Id')=='1074')
 		{
 		    $o_join=new WX_User_Activity_Join();
 		    $o_join->PushWhere(array("&&", "UserId", "=", $o_new_user->getId()));
-		    $o_join->PushWhere(array("&&", "ActivityId", "=", '1042'));
+		    $o_join->PushWhere(array("&&", "ActivityId", "=", '1074'));
 		    if ($o_join->getAllCount()>0)
 		    {
 		        //更新
@@ -296,7 +289,7 @@ class Operate extends Bn_Basic {
 		    }
 		    $o_join->setRound1(1);
 		    $o_join->Save();
-		}
+		}*/
 		$this->setReturn ( 'parent.submit_success()' );
 	}
 	private function delEnter($str)
