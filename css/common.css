@@ -1,4 +1,6 @@
-
+body{
+	overflow-x:hidden;
+}
 input, select, button
 {
 	vertical-align: middle;

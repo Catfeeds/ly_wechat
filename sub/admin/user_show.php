@@ -34,7 +34,19 @@ ExportMainTitle(MODULEID,$O_Session->getUid());
                     	<div class="sss_form">
                     		<div class="item">
 	                     		<label><?php echo(Text::Key('Photo'))?>：</label><br/>
-	                     		<img class="photo" src="<?php echo(RELATIVITY_PATH.$o_user_photo->getPath())?>"/>	
+	                     		<img class="photo" src="<?php
+	                     		if ($o_user_photo->getPath()=='')
+								{
+									echo(RELATIVITY_PATH.'images/photo_default.png');
+								}else{
+									if(count(explode('http', $o_user_photo->getPath()))>1)
+									{
+										echo($o_user_photo->getPath());
+									}
+									else{
+										echo(RELATIVITY_PATH.$o_user_photo->getPath());
+									}
+	                     		}?>"/>	
 	                     	</div>
 	                     	<div class="item">
 	                     		<label><?php echo(Text::Key('UserName'))?>：</label>

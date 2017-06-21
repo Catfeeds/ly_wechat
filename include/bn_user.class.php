@@ -33,6 +33,10 @@ class Single_User extends Bn_Basic //单独用户,把所有根用户有关的进
 				return true;
 			}
 		}
+		if($n_module_id==0)
+		{
+			return true;//查看系统消息模块
+		}
 		return false;
 	}
 	public function setSessionID($s_sessionid) {

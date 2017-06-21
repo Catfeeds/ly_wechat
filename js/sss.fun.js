@@ -357,7 +357,7 @@ function table_load(fun,item,sort,page,key,other_key)
 					{
 						active='on';
 					}
-					a_arr.push('<li><a href="javascript:;" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+number+'\',\''+key+'\',\''+other_key+'\')" class="'+active+'">'+number+'</a></li>');
+					a_arr.push('<li><a href="javascript:;" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+number+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')" class="'+active+'">'+number+'</a></li>');
 				}
 			}
 			if (page < pagesum) {
