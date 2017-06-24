@@ -62,7 +62,7 @@ ExportMainTitle(MODULEID,$O_Session->getUid());
 									for($i = 0; $i < $n_count1; $i ++) {
 										$s_html .= '<div class="main_role">
 														<input type="checkbox" id="module_' . $o_module1->getModuleId ( $i ) . '" value="' . $o_module1->getModuleId ( $i ) . '"/>	                     		
-				            							<label onclick="role_select(this)" for="module_' . $o_module1->getModuleId ( $i ) . '" class="radio_text"> <span class="glyphicon '.$o_module1->getPath($i).'" aria-hidden="true"></span> ' . $o_module1->getName ( $i ) . '</label>
+				            							<label class="radio_text"> <span class="glyphicon '.$o_module1->getPath($i).'" aria-hidden="true"></span> ' . $o_module1->getName ( $i ) . '</label>
 							                    	';
 										$o_module2 = new View_AddRole_Module ();
 										$o_module2->PushWhere ( array ('&&', 'ParentModuleId', '=', $o_module1->getModuleId ( $i ) ) );
@@ -71,7 +71,7 @@ ExportMainTitle(MODULEID,$O_Session->getUid());
 										for($j = 0; $j < $n_count2; $j ++) {
 											$s_html .= '<div class="sub_role">
 															<input type="checkbox" id="module_' . $o_module2->getModuleId ( $j ) . '"/>	                     		
-					            							<label for="module_' . $o_module2->getModuleId ( $j ) . '" value="' . $o_module2->getModuleId ( $j ) . '" class="radio_text">' . $o_module2->getName ( $j ) . '</label>
+					            							<label value="' . $o_module2->getModuleId ( $j ) . '" class="radio_text">' . $o_module2->getName ( $j ) . '</label>
 													';
 											$o_module3 = new View_AddRole_Module ();
 											$o_module3->PushWhere ( array ('&&', 'ParentModuleId', '=', $o_module2->getModuleId ( $j ) ) );
@@ -80,7 +80,7 @@ ExportMainTitle(MODULEID,$O_Session->getUid());
 											for($k = 0; $k < $n_count3; $k ++) {
 												$s_html .= '<div class="sub_role">
 		                     									<input type="checkbox" id="module_' . $o_module3->getModuleId ( $k ) . '" value="' . $o_module3->getModuleId ( $k ) . '"/>	                     		
-	            												<label for="module_' . $o_module3->getModuleId ( $k ) . '" class="radio_text">' . $o_module3->getName ( $k ) . '</label>
+	            												<label class="radio_text">' . $o_module3->getName ( $k ) . '</label>
             												</div>';
 											}
 											$s_html .= '</div>';
