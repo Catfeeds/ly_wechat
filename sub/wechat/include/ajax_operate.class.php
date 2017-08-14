@@ -244,7 +244,7 @@ class Operate extends Bn_Basic {
 		$data = array(
 	    	'touser' => $openId, // openid是发送消息的基础
 			'template_id' => 'ncHgsg53CN7CQYs7MJMk9iW-U5NDTUyMyTC3fnsKPIo', // 模板id
-			'url' => $o_sysinfo->getHomeUrl().'sub/wechat/signin_success_'.$s_reg_page.$this->getPost('SceneId').'.php', // 点击跳转地址
+			'url' => $o_sysinfo->getHomeUrl().'sub/wechat/signin_success_'.$s_reg_page.$this->getPost('SceneId').'.php?id='.$this->getPost('Id'), // 点击跳转地址
 			'topcolor' => '#FF0000', // 顶部颜色
 			'data' => array(
 				'first' => array('value' => '微信扫码签到成功！
@@ -257,7 +257,6 @@ class Operate extends Bn_Basic {
 			)
 			);
 		$curlUtil->https_request($s_url, json_encode($data));
-		/*
 		//检查临时用户是否签到，如果是，标注签到
 		$o_user_temp=new WX_User_Info_Temp();
 		$o_user_temp->PushWhere(array("&&", "ActivityId", "=", $this->getPost('Id')));
@@ -269,7 +268,6 @@ class Operate extends Bn_Basic {
 			$o_temp->setSigninFlag(1);
 			$o_temp->Save();
 		}
-		*/
 		/*
 		//如果活动ID=1074，那么自动进入奖池
 		if($this->getPost('Id')=='1074')
@@ -290,7 +288,7 @@ class Operate extends Bn_Basic {
 		    $o_join->setRound1(1);
 		    $o_join->Save();
 		}*/
-		$this->setReturn ( 'parent.submit_success()' );
+		$this->setReturn ( 'parent.submit_success("'.$this->getPost('Id').'")' );
 	}
 	private function delEnter($str)
 	{
@@ -588,6 +586,7 @@ class Operate extends Bn_Basic {
 		//exit(0);
 		$o_user=new WX_User_Info_Temp();
 		$o_user->PushWhere(array("&&", "Phone", "=", $this->getPost('phone')));
+		$o_user->PushWhere(array("&&", "ActivityId", "=", $this->getPost('sceneid')));
 		if ($o_user->getAllCount()>0)
 		{
 			//找到用户签到信息

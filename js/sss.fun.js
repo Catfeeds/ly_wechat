@@ -339,7 +339,7 @@ function table_load(fun,item,sort,page,key,other_key)
 		var page=parseInt(json.current)
 		var pagesize=parseInt(json.pagesize)
 		var pagesum=Math.ceil(parseInt(json.total)/parseInt(json.pagesize))
-		var show=8;
+		var show=10;
 		a_arr.push('<div class="explain">'+json.total+' '+Language['TableTotal']+'&nbsp;&nbsp;&nbsp;&nbsp;'+Language['Total']+' '+pagesum+' '+Language['Page']+' </div>');
 		if(pagesum>1)
 		{
@@ -363,6 +363,11 @@ function table_load(fun,item,sort,page,key,other_key)
 			if (page < pagesum) {
 				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['Next']+'" aria-label="Next" onclick="table_sort(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+(page+1)+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')"><span aria-hidden="true">&raquo;</span></a></li>');
 			}
+			if(pagesum>10)
+			{
+				a_arr.push('<li><input id="go_page_number" maxlength="3" onkeypress="table_sort_go_page_keypress(event,\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')" onkeyup="value=value.replace(/[^0-9]/g,\'\')" class="form-control" type="text"/></li>');
+				a_arr.push('<li><a href="javascript:;" data-toggle="tooltip" title="'+Language['GoToPage']+'" aria-label="Next" onclick="table_sort_go_page(\''+json.funname+'\',\''+json.item+'\',\''+json.sort+'\',\''+decodeURIComponent(key)+'\',\''+decodeURIComponent(other_key)+'\')"><span aria-hidden="true">GO</span></a></li>');
+			}
 			a_arr.push('</ul>');
 		}
 		$('.sss_page').html(a_arr.join('\n'));
@@ -379,6 +384,25 @@ function table_load(fun,item,sort,page,key,other_key)
 		$("body,html").animate({scrollTop:0}, 500);
 		//window.alert(json.pagesize);
     })	
+}
+function table_sort_go_page_keypress(event,fun,item,sort,key,other_key)
+{
+	var keycode = (event.keyCode ? event.keyCode : event.which);  
+    if(keycode == '13'){  
+    	table_sort_go_page(fun,item,sort,key,other_key)
+    }
+}
+function table_sort_go_page(fun,item,sort,key,other_key)
+{
+	//获取页数
+	var page=$('#go_page_number').val();
+	if (parseInt(page)>0)
+	{
+		table_sort(fun,item,sort,page,key,other_key)
+	}else{
+		$('#go_page_number').val('')
+	}
+	
 }
 function get_sys_msg_num()
 {

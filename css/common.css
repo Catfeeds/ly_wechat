@@ -71,6 +71,10 @@ img
 {
     background-color:#3498DB;
     }
+.label-primary
+{
+    background-color:#3498DB;
+    }
 .modal-dialog
 {
 	margin-top:10%;
@@ -510,6 +514,16 @@ img
     float:right;
     margin:0px;
     margin-right:30px;
+    }
+.sss_page .pagination li input
+{
+    height:auto;
+    font-size:12px;
+    display:inherit;
+    border:0px;
+    float:left;
+    width:50px;
+    text-align:center;
     }
 .sss_page .pagination li a
 {

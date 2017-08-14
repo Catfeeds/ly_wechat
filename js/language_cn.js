@@ -11,6 +11,7 @@
 	Page: '页',
 	Prev: '上一页',
 	Next: '下一页',
+	GoToPage:'跳转到',
 	StatusEnable: '正常',
 	StatusDisable: '已停用',
 	Message001: '“用户名 ”不能为空！',
