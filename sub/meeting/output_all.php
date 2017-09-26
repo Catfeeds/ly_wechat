@@ -42,6 +42,7 @@ function OutputList($scene_id) {
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '是否审核通过' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '是否签到' ) );
 	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '是否来自现场报名' ) );
+	array_push ( $a_item, iconv ( 'UTF-8', 'gbk', '本次活动积分' ) );
 	fputcsv ( $fp, $a_item );
 	
 	$o_table = new View_WX_User_Info();
@@ -92,6 +93,7 @@ function OutputList($scene_id) {
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $s_audit) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $s_signin) );
 		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $s_onsite) );
+		array_push ( $a_item, iconv ( 'UTF-8', 'gbk', $o_table->getScore ( $i )) );
 		fputcsv ( $fp, $a_item );
 	}
 	fclose ( $fp );

@@ -661,6 +661,149 @@ class Operate extends Bn_Basic {
 			$this->setReturn ( 'parent.submit_error()' );
 		}
 	}
+	public function AnswerSubmitForTraining()
+	{
+		//随机0.5-2秒的等待
+		$n_second=rand(10, 30)*100000;
+		usleep($n_second);
+		$s_answer=$this->getPost('Answer');
+		$s_activityid=$this->getPost('ActivityId');
+		$s_question=$this->getPost('Question');
+		$s_open_id=$this->getPost('OpenId');
+		//查找活动里是否有当前日期的活动
+		$o_activity=new WX_Activity();
+		$o_activity->PushWhere(array("&&", "Id", "=", $s_activityid));
+		if ($o_activity->getAllCount()>0)
+		{
+			//查看用户是否已经报名
+			$o_user = new WX_User_Info();
+			$o_user->PushWhere(array("&&", "OpenId", "=", $s_open_id));
+			$o_user->getAllCount();
+			$o_user_activity=new WX_User_Activity();
+			$o_user_activity->PushWhere(array("&&", "ActivityId", "=", $o_activity->getId(0)));
+			$o_user_activity->PushWhere(array("&&", "UserId", "=", $o_user->getId(0)));
+			$o_user_activity->PushWhere(array("&&", "SigninFlag", "=", 1));
+			if ($o_user_activity->getAllCount()>0)
+			{
+				//只有签到人员才能抢答
+				//查找是否已经被抢答
+				$o_race=new Wx_Activity_Training_Race();
+				$o_race->PushWhere(array("&&", "ActivityId", "=", $o_activity->getId(0)));
+				$o_race->PushWhere(array("&&", "UserId", "=", 0));		
+				$o_race->PushWhere(array("&&", "Number", "=", $s_question));
+				if ($o_race->getAllCount()>0)
+				{
+					//说明没有被抢答  
+					$n_score=$o_race->getScore(0);
+					$o_race=new Wx_Activity_Training_Race($o_race->getId(0));
+					$o_race->setUserId($o_user->getId(0));
+					$o_race->Save();
+					$o_race='';
+					//保存提示语
+					$o_training_hint_log=new Wx_User_Training_Hint_Log();
+					$o_training_hint_log->setActivityId($o_activity->getId(0));
+					$o_training_hint_log->setUserId($o_user->getId(0));
+					$o_training_hint_log->setDate($this->GetDateNow());
+					$o_training_hint_log->setComment('恭喜您，抢答成功！<br/>+'.$n_score.'积分奖励！');
+					$o_training_hint_log->Save();
+					//保存积分
+					$o_user_activity=new WX_User_Activity($o_user_activity->getId(0));
+					$n_user_score=$o_user_activity->getScore();
+					$o_user_activity->setScore($n_user_score+$n_score);
+					$o_user_activity->Save();
+				}else{
+					//保存提示语
+					$o_training_hint_log=new Wx_User_Training_Hint_Log();
+					$o_training_hint_log->setActivityId($o_activity->getId(0));
+					$o_training_hint_log->setUserId($o_user->getId(0));
+					$o_training_hint_log->setDate($this->GetDateNow());
+					$o_training_hint_log->setComment('对不起，已被抢答！<br/>请您再接再厉！');
+					$o_training_hint_log->Save();
+				}		
+			}else{
+				$this->setReturn ( 'parent.submit_wroning()' );
+			}
+		}
+		//回答正确
+		$this->setReturn ( 'parent.location="'.$this->getPost('Url').'../signin_success_1080.php?openid='.$s_open_id.'";' );
+	}
+	public function ExamSubmitForTraining()
+	{
+		sleep(1);
+		$n_right=0;
+		$n_score=0;
+		$s_open_id=$this->getPost('OpenId');
+		$o_user = new WX_User_Info();
+		$o_user->PushWhere(array("&&", "OpenId", "=", $s_open_id));
+		$o_user->getAllCount();
+		$o_user_activity=new WX_User_Activity();
+		$o_user_activity->PushWhere(array("&&", "ActivityId", "=", $this->getPost('ActivityId')));
+		$o_user_activity->PushWhere(array("&&", "UserId", "=", $o_user->getId(0)));
+		$o_user_activity->PushWhere(array("&&", "SigninFlag", "=", 1));
+		if ($o_user_activity->getAllCount()==0)
+		{
+			$this->setReturn ( 'parent.submit_wroning()' );
+		}
+		//验证是否全部作答
+		$o_question=new Wx_Activity_Training_Questions();
+		$o_question->PushWhere(array("&&", "ActivityId", "=", $this->getPost('ActivityId')));
+		$o_question->PushOrder ( array ('Number','A') );
+		for($i=0;$i<$o_question->getAllCount();$i++)
+		{
+			if($this->getPost('Question_'.$o_question->getId($i))=='')
+			{
+				$this->setReturn ( 'parent.submit_wroning("'.$o_question->getNumber($i).'")' );
+				break;
+			}				
+		}	
+		for($i=0;$i<$o_question->getAllCount();$i++)
+		{
+			if('["'.$this->getPost('Question_'.$o_question->getId($i)).'"]'==$o_question->getAnswer($i))
+			{
+				//如果答对，记录到答对人数
+				$n_right++;
+				$n_score=$n_score+$o_question->getScore($i);
+				$o_temp=new Wx_Activity_Training_Questions($o_question->getId($i));
+				$o_temp->setRightNum($o_question->getRightNum($i)+1);
+				$o_temp->Save();
+				$o_temp='';				
+			}else{
+				//如果答错，记录到答错人数
+				$o_temp=new Wx_Activity_Training_Questions($o_question->getId($i));
+				$o_temp->setErrorNum($o_question->getErrorNum($i)+1);
+				$o_temp->Save();
+			}
+		}
+		//保持用户答案与积分		
+		//保存用户答案
+		$o_answer=new Wx_User_Training_Answers();
+		$o_answer->setUserId($o_user->getId(0));
+		$o_answer->setDate($this->GetDateNow());
+		$o_answer->setActivityId($this->getPost('ActivityId'));
+		$o_answer->setRate(sprintf("%.1f", ($n_right/$o_question->getAllCount()*100)));//保留一位小数
+		for($i=0;$i<$o_question->getAllCount();$i++)
+		{
+			eval('$o_answer->setAnswer'.($i+1).'(\'["'.$this->getPost('Question_'.$o_question->getId($i)).'"]\');');
+		}
+		$o_answer->Save();
+		//累加积分
+		$o_user_activity=new WX_User_Activity($o_user_activity->getId(0));
+		$n_user_score=$o_user_activity->getScore();
+		$o_user_activity->setScore($n_user_score+$n_score);
+		$o_user_activity->Save();
+		//保存提示语
+		$o_training_hint_log=new Wx_User_Training_Hint_Log();
+		$o_training_hint_log->setActivityId($this->getPost('ActivityId'));
+		$o_training_hint_log->setUserId($o_user->getId(0));
+		$o_training_hint_log->setDate($this->GetDateNow());
+		$o_training_hint_log->setComment('完成随堂测验：<br/>共'.$o_question->getAllCount().'题，答对'.$n_right.'题<br/>+'.$n_score.'积分奖励！<br/>
+			<div class="input" style="margin-top:22px;padding-bottom:25px;margin-left:5%;width:90%;">
+	    	   <button type="button" onclick="location=\'partner/1080_exam_answer.php\'">查看答卷</button>
+	    	</div>
+		');
+		$o_training_hint_log->Save();
+		$this->setReturn ( 'parent.location="'.$this->getPost('Url').'../signin_success_1080.php?openid='.$s_open_id.'";' );
+	}
 	/*
 	 * 2016迪拜路演后备份，支持每次只打一道题。
 	public function AnswerSubmit()
@@ -718,6 +861,150 @@ class Operate extends Bn_Basic {
 		}
 	}
 	*/
+	public function SigninForTraining()
+	{
+		sleep(1);
+		require_once 'userGroup.class.php';
+		require_once RELATIVITY_PATH . 'sub/wechat/include/accessToken.class.php';
+		$o_token=new accessToken();
+		$curlUtil = new curlUtil();
+		$openId = $this->getPost('OpenId');
+		$o_token=new accessToken();
+		$s_token=$o_token->access_token;
+		//通过接口获取用户OpenId
+		$s_url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$s_token.'&openid='.$openId.'&lang=zh_CN';
+		$o_util=new curlUtil();
+		$s_return=$o_util->https_request($s_url);
+		$a_user_info=json_decode($s_return, true);
+		//判断是否重复提交报名
+		$o_user_info=new WX_User_Info();
+		$o_user_info->PushWhere(array("&&", "OpenId", "=",$openId));
+		$n_user_id=0;
+		if ($o_user_info->getAllCount()==0)
+		{
+			//是现场签到的用户，并且没有信息，需要新建信息
+			//需要新建用户信息
+			$o_new_user=new WX_User_Info();
+			$o_new_user->setPhoto($a_user_info['headimgurl']);
+			$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
+			if ($a_user_info['sex']==2)
+			{
+				$o_new_user->setSex('女');
+			}else{
+				$o_new_user->setSex('男');
+			}			
+			$o_new_user->setUserName($this->getPost('Name'));
+			$o_new_user->setCompany($this->getPost('Company'));
+			$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
+			$o_new_user->setAddress('');
+			$o_new_user->setDeptJob($this->getPost('DeptJob'));
+			$o_new_user->setPhone($this->getPost('Phone'));
+			$o_new_user->setEmail($this->getPost('Email'));
+			$o_new_user->setRegisterDate($this->GetDate());
+			$o_new_user->setOpenId($this->getPost('OpenId'));		
+			$o_new_user->setDelFlag(0);
+			$b_rusult=$o_new_user->Save();
+			$n_user_id=$o_new_user->getId();
+		}else{
+			$n_user_id=$o_user_info->getId(0);
+			$o_new_user=new WX_User_Info($n_user_id);
+			$o_new_user->setPhoto($a_user_info['headimgurl']);
+			$o_new_user->setNickname($this->FilterEmoji($a_user_info['nickname']));
+			$o_new_user->setUserName($this->getPost('Name'));
+			$o_new_user->setCompany($this->getPost('Company'));
+			$o_new_user->setCompanyEn($this->getPost('CompanyEn'));
+			$o_new_user->setDeptJob($this->getPost('DeptJob'));
+			$o_new_user->setPhone($this->getPost('Phone'));
+			$o_new_user->setEmail($this->getPost('Email'));
+			$o_new_user->setDelFlag(0);
+			$o_new_user->Save();
+		}
+		//检查临时用户是否签到，如果是，标注签到
+		$o_user_temp=new WX_User_Info_Temp();
+		$o_user_temp->PushWhere(array("&&", "ActivityId", "=", $this->getPost('Id')));
+		$o_user_temp->PushWhere(array("&&", "Phone", "=", $this->getPost('Phone')));
+		$o_user_temp->PushWhere(array("&&", "OnsiteFlag", "=",0));
+		$n_count=$o_user_temp->getAllCount();
+		for($i=0;$i<$n_count;$i++)
+		{
+			$o_temp=new WX_User_Info_Temp($o_user_temp->getId($i));
+			$o_temp->setSigninFlag(1);
+			$o_temp->Save();
+		}
+		//检查是否已经报过名
+		$o_user_activity=new WX_User_Activity();
+		$o_user_activity->PushWhere(array("&&", "ActivityId", "=", $this->getPost('Id')));
+		$o_user_activity->PushWhere(array("&&", "UserId", "=", $n_user_id));		
+		if($o_user_activity->getAllCount()>0)
+		{
+			//说明是已经报名的用户，标记为已签到
+			$o_user_activity=new WX_User_Activity($o_user_activity->getId(0));
+			$n_score=$o_user_activity->getScore();
+			//如果已经签到，那么直接返回
+			if($o_user_activity->getSigninFlag()==1)
+			{
+				return;
+			}
+			$o_user_activity->setSigninFlag(1);
+			if ($n_count>0)
+			{
+				$o_user_activity->setOnsiteFlag(1);//如果没有临时信息，那么属于现场签到
+			}else{
+				$o_user_activity->setScore($n_score+10);//报名奖励10分
+			}
+			$o_user_activity->Save();
+		}else{
+			//说明是现场签到的用户
+			$o_user_activity=new WX_User_Activity();
+			$o_user_activity->setActivityId($this->getPost('Id'));
+			$o_user_activity->setUserId($n_user_id);
+			$o_user_activity->setSigninFlag(1);
+			if ($n_count>0)
+			{
+				$o_user_activity->setOnsiteFlag(1);//如果没有临时信息，那么属于现场签到
+			}else{
+				$o_user_activity->setScore(10);//报名奖励10分
+			}
+			$o_user_activity->setAuditFlag(1);
+			$o_user_activity->Save();
+		}
+		//开始用户分组
+		$o_sysinfo=new Base_Setup(1);
+		$o_activity=new WX_Activity($this->getPost('Id'));
+		//是否加注册成功页面
+		$s_reg_page='';
+		if ($this->getPost('Reg')=='0')
+		{
+			$s_reg_page='reg_';
+		}
+		//保存提示语
+		$o_training_hint_log=new Wx_User_Training_Hint_Log();
+		$o_training_hint_log->setActivityId($this->getPost('Id'));
+		$o_training_hint_log->setUserId($n_user_id);
+		$o_training_hint_log->setDate($this->GetDateNow());
+		$o_training_hint_log->setComment('恭喜您，签到成功！<br/>记得下次再来哦！');
+		$o_training_hint_log->Save();
+		//发送确认信息
+		$s_url='https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$o_token->access_token;
+		$data = array(
+	    	'touser' => $openId, // openid是发送消息的基础
+			'template_id' => 'ncHgsg53CN7CQYs7MJMk9iW-U5NDTUyMyTC3fnsKPIo', // 模板id
+			'url' => $o_sysinfo->getHomeUrl().'sub/wechat/signin_success_'.$this->getPost('Id').'.php?openid='.$openId, // 点击跳转地址
+			'topcolor' => '#FF0000', // 顶部颜色
+			'data' => array(
+				'first' => array('value' => '微信扫码签到成功！
+			'),
+				'keyword1' => array('value' => $o_activity->getTitle(),'color'=>'#173177'),
+				'keyword2' => array('value' => $o_activity->getAddress(),'color'=>'#173177'),
+				'keyword3' => array('value' => $this->getPost('Name'),'color'=>'#173177'),
+				'keyword4' => array('value' => $this->getPost('Phone'),'color'=>'#173177'),
+				'remark' => array('value' => '')
+			)
+			);
+		$curlUtil->https_request($s_url, json_encode($data));
+		
+		$this->setReturn ( 'parent.submit_success("'.$openId.'")' );
+	}
 }
 
 ?>

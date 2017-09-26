@@ -37,7 +37,6 @@ if($o_user_activity->getSigninFlag(0)==1)
 		echo "<script>location.href='signin_success_".$_GET['sceneid'].".php?id=".$sceneId."'</script>"; 
 		exit(0);
 	}
-	
 }
 ?>
 <!DOCTYPE html>

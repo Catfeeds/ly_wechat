@@ -23,6 +23,7 @@ class View_WX_User_Info extends CRUD
 	protected $AuditFlag;
 	protected $OnsiteFlag;
 	protected $Round;
+	protected $Score;
 	protected $UserActivityId;
 	
 	protected function DefineKey(){
@@ -48,6 +49,7 @@ class View_WX_User_Info extends CRUD
 		      	'wx_user_info.register_date' => 'RegisterDate',
 		      	'wx_user_info.del_flag' => 'DelFlag',
       			'wx_user_activity.audit_flag' => 'AuditFlag',
+      			'wx_user_activity.score' => 'Score',
       			'wx_user_activity.signin_flag' => 'SigninFlag',
       			'wx_user_activity.onsite_flag' => 'OnsiteFlag',
       			'wx_user_activity.id' => 'UserActivityId',

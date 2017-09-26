@@ -56,7 +56,14 @@ class Operate extends Bn_Basic {
 			
 			if(strtotime($today) <= strtotime($o_activity->getActivityDate($i))){
 				array_push ( $a_button, array ('发送提醒', "send_reminder(".$o_activity->getId($i).",'".rawurlencode($o_activity->getTitle($i))."','".rawurlencode($o_activity->getActivityDate($i).'（周'.$o_activity->getWeek($i).'）'.$o_activity->getActivityTime($i))."','".rawurlencode($o_activity->getRemFirst($i))."','".rawurlencode($o_activity->getRemRemark($i))."')" ) );//发送提醒
-			}			
+			}
+			//判断是否显示培训题查看按钮
+			$o_training=new Wx_Activity_Training_Questions();
+			$o_training->PushWhere ( array ('&&', 'ActivityId', '=',$o_activity->getId($i)) );
+			if ($o_training->getAllCount())
+			{
+				array_push ( $a_button, array ('随堂测试', "location='meeting_training.php?id=".$o_activity->getId($i)."'" ) );//删除
+			}
 			//array_push ( $a_button, array ('修改', "audit_reject(this,'".$o_activity->getId($i)."')" ) );//删除
 			//统计总人数和待审核与签到
 			$o_user_activity=new WX_User_Activity();
@@ -503,6 +510,65 @@ class Operate extends Bn_Basic {
 		}
 		$a_result = array ();
 		echo(json_encode ($a_result));
+	}
+	public function MeetingTrainingList($n_uid)
+	{
+		if (! ($n_uid > 0)) {
+			$this->setReturn('parent.goto_login()');
+		}
+		$o_user = new Single_User ( $n_uid );
+		if (!$o_user->ValidModule ( 100401 ))return;//如果没有权限，不返回任何值
+		$n_page=$this->getPost('page');
+		if ($n_page<=0)$n_page=1;
+		require_once RELATIVITY_PATH . 'sub/wechat/include/db_view.class.php';
+		$o_user = new Wx_Activity_Training_Questions(); 
+		$s_id=$this->getPost('key');
+		$o_user->PushWhere ( array ('&&', 'ActivityId', '=',$s_id) );
+		$o_user->PushOrder ( array ($this->getPost('item'), $this->getPost('sort') ) );
+		$o_user->setStartLine ( ($n_page - 1) * $this->N_PageSize ); //起始记录
+		$o_user->setCountLine ( $this->N_PageSize );
+		$n_count = $o_user->getAllCount ();
+		if (($this->N_PageSize * ($n_page - 1)) >= $n_count) {
+			$n_page = ceil ( $n_count / $this->N_PageSize );
+			$o_user->setStartLine ( ($n_page - 1) * $this->N_PageSize );
+			$o_user->setCountLine ( $this->N_PageSize );
+		}
+		$n_allcount = $o_user->getAllCount ();//总记录数
+		$n_count = $o_user->getCount ();
+		$a_row = array ();
+		for($i = 0; $i < $n_count; $i ++) {
+			//数据行
+			$a_button = array ();
+			$o_options=new Wx_Activity_Training_Options();
+			$o_options->PushWhere ( array ('&&', 'QuestionId', '=',$o_user->getId($i)) );
+			$s_option='';
+			$a_right=json_decode($o_user->getAnswer($i));
+			for($j=0;$j<$o_options->getAllCount();$j++)
+			{
+				if (in_array($o_options->getId($j),$a_right))
+				{
+					$s_option.='<div style="padding-top:3px;padding-bottom:3px;"><span class="label label-success">'.$o_options->getNumber($j).'.'.$o_options->getOption($j).'</span></div>';
+				}else{
+					$s_option.='<div>'.$o_options->getNumber($j).'.'.$o_options->getOption($j).'</div>';
+				}
+			}
+			$n_rate=sprintf("%.1f",$o_user->getErrorNum($i)/($o_user->getRightNum($i)+$o_user->getErrorNum($i))*100);//百分比保留1位小数
+			array_push ($a_row, array (
+				$o_user->getNumber ( $i ),
+				$o_user->getQuestion ( $i ),
+				$s_option,
+				$n_rate.'%',
+				$o_user->getScore ( $i ).' 分'
+				));
+		}
+		//标题行,列名，排序名称，宽度，最小宽度
+		$a_title = array ();
+		$a_title=$this->setTableTitle($a_title,'题号', 'Number', 0, 80);
+		$a_title=$this->setTableTitle($a_title,'题目', '', 0, 0);
+		$a_title=$this->setTableTitle($a_title,'选项', '', 0, 0);
+		$a_title=$this->setTableTitle($a_title,'错误率', 'ErrorNum', 0,80);
+		$a_title=$this->setTableTitle($a_title,'奖励分数', '', 0, 80);
+		$this->SendJsonResultForTable($n_allcount,'MeetingTrainingList', 'no', $n_page, $a_title, $a_row);
 	}
 }
 

@@ -21,10 +21,15 @@ class Operate extends Bn_Basic {
 		if ($s_key!='')
 		{
 			$o_user->PushWhere ( array ('||', 'UserName', 'like','%'.$s_key.'%') );
+			$o_user->PushWhere ( array ('&&', 'Type', '=', 1 ) );
+			$o_user->PushWhere ( array ('&&', 'Deleted', '=', 0 ) );
 			$o_user->PushWhere ( array ('||', 'Name', 'like','%'.$s_key.'%') );
+			$o_user->PushWhere ( array ('&&', 'Type', '=', 1 ) );
+			$o_user->PushWhere ( array ('&&', 'Deleted', '=', 0 ) );
+		}else{
+			$o_user->PushWhere ( array ('&&', 'Type', '=', 1 ) );
+			$o_user->PushWhere ( array ('&&', 'Deleted', '=', 0 ) );
 		}
-		$o_user->PushWhere ( array ('&&', 'Type', '=', 1 ) );
-		$o_user->PushWhere ( array ('&&', 'Deleted', '=', 0 ) );
 		$o_user->PushOrder ( array ($this->getPost('item'), $this->getPost('sort') ) );
 		$o_user->setStartLine ( ($n_page - 1) * $this->N_PageSize ); //起始记录
 		$o_user->setCountLine ( $this->N_PageSize );
